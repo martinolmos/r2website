@@ -1,0 +1,34 @@
+library(readxl)
+library(plyr)
+
+home_train <- read.csv("C:/Users/marti/Google Drive/Ciencia de Datos/Mineria de Datos/TP/real_estate/train.csv")
+home_dictio <- read_xlsx("C:/Users/marti/Google Drive/Ciencia de Datos/Mineria de Datos/TP/real_estate/data_dictionary.xlsx", sheet = 1)
+home_dictio2 <- read_xlsx("C:/Users/marti/Google Drive/Ciencia de Datos/Mineria de Datos/TP/real_estate/data_dictionary.xlsx", sheet = 2)
+
+names(home_train)
+View(head(home_train, 10))
+
+table(home_train$airconditioningtypeid)
+table(home_train$architecturalstyletypeid)
+table(home_train$buildingclasstypeid)
+table(home_train$decktypeid)
+
+table(home_train$buildingqualitytypeid)
+table(home_train$heatingorsystemtypeid)
+table(home_train$pooltypeid10)
+table(home_train$pooltypeid2)
+table(home_train$pooltypeid7)
+table(home_train$propertycountylandusecode)
+
+apply(home_train, 2, class)
+home_train <- colwise(type.convert)(home_train)
+
+summary(home_train)
+
+home_train$parcelid <- as.integer(home_train$parcelid)
+table(home_train$parcelid)
+table(home_train$bathroomcnt)
+table(home_train$bedroomcnt)
+
+
+

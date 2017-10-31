@@ -1,0 +1,9 @@
+{
+    "path" : "~/r2website/content/post",
+    "sortOrder" : [
+        {
+            "ascending" : true,
+            "columnIndex" : 2
+        }
+    ]
+}
