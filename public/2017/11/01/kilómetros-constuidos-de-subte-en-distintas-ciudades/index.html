@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.30.2" />
+
+
+<title>Kilómetros constuidos de subte en distintas ciudades - R2</title>
+<meta property="og:title" content="Kilómetros constuidos de subte en distintas ciudades - R2">
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.11.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/martinolmos">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/Martin_O_79">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">1 min read</span>
+    
+
+    <h1 class="article-title">Kilómetros constuidos de subte en distintas ciudades</h1>
+
+    
+    <span class="article-date">2017/11/01</span>
+    
+
+    <div class="article-content">
+      <p>Gráfico interactivo de líneas simple con Plotly comparando kilómetros constuidos de Subte en distintas ciudades. Los datos utilizados son de <a href="http://www.citylines.co/data">citylines.com</a></p>
+<pre class="r"><code>library(shiny)
+library(plotly)
+library(dplyr)
+
+subte_comp &lt;- read.csv(&quot;https://github.com/rbind/r2website/raw/master/content/post/subte_comp.csv&quot;)
+
+# Define la interfaz de usuario
+ui &lt;- fluidPage(
+   # Define el título
+   titlePanel(&quot;Kilómetros constuidos de subte en distintas ciudades&quot;),
+   
+   # Define el layout 
+   sidebarLayout(
+           # Define el panel lateral
+           sidebarPanel(
+                   # Define el checkbox para seleccionar las ciudades
+                   checkboxGroupInput(&quot;elegir_ciudades&quot;, 
+                                      label = &quot;Eligir ciudades&quot;,
+                                      choices = c(&quot;Buenos Aires&quot;,
+                                                  &quot;Madrid&quot;,
+                                                  &quot;Sao Paulo&quot;, 
+                                                  &quot;Santiago&quot;))),
+      
+      # Define el panel principal
+      mainPanel(
+         plotlyOutput(&quot;subtePlot&quot;)
+      )
+   )
+)
+
+# Define server logic required to draw a histogram
+server &lt;- function(input, output) {
+        
+        # &#39;Escucha&#39; las ciudades seleccionadas en el checkbox para subsetear los datos
+        subte_data=reactive({
+                return(subte_comp[subte_comp$Ciudad %in% input$elegir_ciudades,])
+        })
+   output$subtePlot &lt;- renderPlotly({
+           # Define el gráfico de líneas
+           plot_ly(data = subte_data(), 
+                   x = ~Finalizacion, 
+                   y = ~Value,
+                   color = ~Ciudad, 
+                   type = &quot;scatter&quot;,
+                   mode = &quot;lines&quot;)
+   })
+}
+
+# Corre la app 
+shinyApp(ui = ui, server = server)</code></pre>
+<iframe src="https://martinolmos.shinyapps.io/subte_comp/" style="border: none; width: 1000px; height: 1000px">
+</iframe>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+
