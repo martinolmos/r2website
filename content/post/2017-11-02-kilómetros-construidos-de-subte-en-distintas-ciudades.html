@@ -1,0 +1,66 @@
+---
+title: Kilómetros construidos de subte en distintas ciudades
+author: Martin Olmos
+date: '2017-11-02'
+slug: kilómetros-construidos-de-subte-en-distintas-ciudades
+categories:
+  - R
+tags: []
+---
+
+
+
+<p>Gráfico interactivo de líneas simple con Plotly comparando kilómetros constuidos de Subte en distintas ciudades. Los datos utilizados son de <a href="http://www.citylines.co/data">citylines.com</a></p>
+<pre class="r"><code>library(shiny)
+library(plotly)
+library(dplyr)
+
+subte_comp &lt;- read.csv(&quot;subte_comp.csv&quot;)
+
+# Define la interfaz de usuario
+ui &lt;- fluidPage(
+   # Define el título
+   titlePanel(&quot;Kilómetros constuidos de subte en distintas ciudades&quot;),
+   
+   # Define el layout 
+   sidebarLayout(
+           # Define el panel lateral
+           sidebarPanel(
+                   # Define el checkbox para seleccionar las ciudades
+                   checkboxGroupInput(&quot;elegir_ciudades&quot;, 
+                                      label = &quot;Eligir ciudades&quot;,
+                                      choices = c(&quot;Buenos Aires&quot;,
+                                                  &quot;Madrid&quot;,
+                                                  &quot;Sao Paulo&quot;, 
+                                                  &quot;Santiago&quot;))),
+      
+      # Define el panel principal
+      mainPanel(
+         plotlyOutput(&quot;subtePlot&quot;)
+      )
+   )
+)
+
+# Define server logic required to draw a histogram
+server &lt;- function(input, output) {
+        
+        # &#39;Escucha&#39; las ciudades seleccionadas en el checkbox para subsetear los datos
+        subte_data=reactive({
+                return(subte_comp[subte_comp$Ciudad %in% input$elegir_ciudades,])
+        })
+   output$subtePlot &lt;- renderPlotly({
+           # Define el gráfico de líneas
+           plot_ly(data = subte_data(), 
+                   x = ~Finalizacion, 
+                   y = ~Value,
+                   color = ~Ciudad, 
+                   type = &quot;scatter&quot;,
+                   mode = &quot;lines&quot;)
+   })
+}
+
+# Corre la app 
+shinyApp(ui = ui, server = server)</code></pre>
+<div style="width: 100% ; height: 400px ; text-align: center; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;" class="muted well">Shiny applications not supported in static R Markdown documents</div>
+<iframe src="https://martinolmos.shinyapps.io/subte_comp/" style="border: none; width: 1000px; height: 1000px">
+</iframe>

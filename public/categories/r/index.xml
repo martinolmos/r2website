@@ -6,10 +6,20 @@
     <description>Recent content in R on R2</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Jul 2015 21:13:14 -0500</lastBuildDate>
+    <lastBuildDate>Thu, 02 Nov 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kilómetros construidos de subte en distintas ciudades</title>
+      <link>/2017/11/02/kil%C3%B3metros-construidos-de-subte-en-distintas-ciudades/</link>
+      <pubDate>Thu, 02 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/2017/11/02/kil%C3%B3metros-construidos-de-subte-en-distintas-ciudades/</guid>
+      <description>Gráfico interactivo de líneas simple con Plotly comparando kilómetros constuidos de Subte en distintas ciudades. Los datos utilizados son de citylines.com
+library(shiny) library(plotly) library(dplyr) subte_comp &amp;lt;- read.csv(&amp;quot;subte_comp.csv&amp;quot;) # Define la interfaz de usuario ui &amp;lt;- fluidPage( # Define el título titlePanel(&amp;quot;Kilómetros constuidos de subte en distintas ciudades&amp;quot;), # Define el layout sidebarLayout( # Define el panel lateral sidebarPanel( # Define el checkbox para seleccionar las ciudades checkboxGroupInput(&amp;quot;elegir_ciudades&amp;quot;, label = &amp;quot;Eligir ciudades&amp;quot;, choices = c(&amp;quot;Buenos Aires&amp;quot;, &amp;quot;Madrid&amp;quot;, &amp;quot;Sao Paulo&amp;quot;, &amp;quot;Santiago&amp;quot;))), # Define el panel principal mainPanel( plotlyOutput(&amp;quot;subtePlot&amp;quot;) ) ) ) # Define server logic required to draw a histogram server &amp;lt;- function(input, output) { # &amp;#39;Escucha&amp;#39; las ciudades seleccionadas en el checkbox para subsetear los datos subte_data=reactive({ return(subte_comp[subte_comp$Ciudad %in% input$elegir_ciudades,]) }) output$subtePlot &amp;lt;- renderPlotly({ # Define el gráfico de líneas plot_ly(data = subte_data(), x = ~Finalizacion, y = ~Value, color = ~Ciudad, type = &amp;quot;scatter&amp;quot;, mode = &amp;quot;lines&amp;quot;) }) } # Corre la app shinyApp(ui = ui, server = server) Shiny applications not supported in static R Markdown documents  </description>
+    </item>
     
     <item>
       <title>Hello R Markdown</title>
