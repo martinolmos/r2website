@@ -1,4 +1,4 @@
-baseurl = "/"
+baseurl = "https://r2website.rbind.io/"
 languageCode = "en-us"
 title = "R2"
 theme = "hugo-lithium-theme"
@@ -32,7 +32,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     MathJaxVersion = "2.7.1"
 
     [params.logo]
-    url = "logo.png"
+    url = "R2.png"
     width = 50
     height = 50
     alt = "Logo"
