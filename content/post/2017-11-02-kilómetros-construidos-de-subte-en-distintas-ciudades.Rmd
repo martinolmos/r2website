@@ -2,7 +2,7 @@
 title: Kilómetros construidos de subte en distintas ciudades
 author: Martin Olmos
 date: '2017-11-02'
-slug: kilómetros-construidos-de-subte-en-distintas-ciudades
+slug: kms-de-subte-en-ciudades
 categories:
   - R
 tags: []
