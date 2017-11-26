@@ -1,0 +1,175 @@
+---
+title: Dónde abrir el local de comidas?
+author: Martin Olmos
+date: '2017-11-26'
+slug: donde-abrir-el-local-de-comidas
+categories: []
+tags: []
+---
+
+
+
+<p>Hace un tiempo un amigo de un amigo me pidió ayuda para determinar cuál era el mejor lugar para abrir un local de comidas usando datos públicos disponibles. Se trataba de un servicio con modalidad ‘take-away’, que brindaría una oferta económica de comida saludable para el almuerzo. Básicamente, el público en el que estaba pensando era gente que trabaja en oficinas.</p>
+<p>Lo primero que hicimos fue tratar de mapear la oferta y demanda existente. Para esto, utilizamos datos del <a href="https://data.buenosaires.gob.ar/dataset/relevamiento-usos-del-suelo">relevamiento de usos del suelo</a> del GCBA (que nos permitió mapear las parcelas donde funcionan oficinas) y de la API de <a href="www.yelp.com">Yelp!</a>, la aplicación móvil que conecta gente con negocios locales, que nos permitió obtener <strong>información detallada de locales de comida con caractísticas similares a las del negocio analizado</strong>.</p>
+<p>Vamos paso por paso con el análisis que hicimos en R. Lo primero fue cargar las librerías que vamos a utilizar. En este caso ‘dplyr’ y ‘tidyr’ para manipular los datos, ‘httr’ para los requerimiento a la API de Yelp! y ‘leaflet’ para mapear.</p>
+<p>Luego, descargamos el relevamiento de usos del suelo y lo filtramos para quedarnos sólo con los rubros que nos interesan. A modo de muestra para este ejemplo, vamos a quedarnos con las categorías “INTERMEDIACION FINANCIERA Y AUXILIARES”, “SERVICIOS DE SEGUROS Y DE ADMINISTRACION DE FONDOS DE JUBILACIONES Y PENSIONES” Y “ADMINISTRACION PUBLICA, DEFENSA Y SEGURIDAD SOCIAL” de la variable “rama1” y con la categoria “OFICINAS” de la variable “tipo_2” (para ver el detalle de lo que significa cada variable y rubro pueden referirse a la <a href="https://data.buenosaires.gob.ar/api/files/documentacion-relevamiento-usos-suelo-2011.pdf/download">documentación del dataset</a>).</p>
+<pre class="r"><code># Carga las librerías que vamos a necesitar
+library(dplyr)
+library(tidyr)
+library(leaflet)
+library(httr)
+
+# Link de descarga de los datos del relevamiento de usos del suelo
+usos_url &lt;- &quot;https://data.buenosaires.gob.ar/api/files/relevamiento-usos-del-suelo-2011.csv/download/csv&quot;
+
+myfile &lt;- download.file(url = usos_url, destfile = &quot;usos.csv&quot;, mode = &quot;wb&quot;)
+# Descarga los datos
+usos &lt;- read.csv(&quot;usos.csv&quot;, 
+                   sep = &quot;;&quot;, 
+                   header = TRUE, 
+                   stringsAsFactors = FALSE)
+
+oficinas &lt;- usos %&gt;% filter(tipo_2 == &quot;OFICINAS&quot; | 
+                                    rama1 == &quot;INTERMEDIACION FINANCIERA Y AUXILIARES&quot; | 
+                                    rama1 == &quot;ADMINISTRACION PUBLICA, DEFENSA Y SEGURIDAD SOCIAL OBLIGATORIA&quot; | 
+                                    rama1 == &quot;SERVICIOS DE SEGUROS Y DE ADMINISTRACION DE FONDOS DE JUBILACIONES Y PENSIONES&quot;)</code></pre>
+<p>Ahora vamos por los datos de Yelp! Lo primero es crear una App en <a href="https://yelp.co.uk/developers" class="uri">https://yelp.co.uk/developers</a> y obtener un “Client ID” y un “Client Secret”. Con esto podemos gestionar un token que vamos a usar para requerir los datos a la API.</p>
+<p>Luego, tenemos que definir los parámetros de la búsqueda. En la <a href="https://www.yelp.co.uk/developers/documentation/v3">documentación de la API</a>, vemos que hay distintos endpoints de acuerdo al tipo de información que buscamos. En nuestro caso, utilizaremos el endpoint /businesses/search (Search API) que devuelve hasta 1000 negocios de acuerdo al criterio de búsqueda.</p>
+<p>Los parámetros de búsqueda que utilizaremos son los siguientes:</p>
+<ul>
+<li>location: Se especifica mediante uno o varios de los siguientes elementos: dirección, barrio, ciudad, estado o código postal y país. Es el único parámetro obligatorio, salvo que se especifiquen los parámetros “latitutde” y “longitude”. En nuestro caso, utilizaremos “Buenos Aires.”</li>
+<li>categories: un listado de las categorías separadas por comas. En nuestro caso, utilizaremos “salad,vegan,vegetarian,delis,delicatessen”. <a href="https://www.yelp.co.uk/developers/documentation/v2/all_category_list">Acá</a> pueden ver el listado completo de categorías.</li>
+<li>term: es el término de búsqueda. En nuestro caso utilizaremos el término “para llevar”.</li>
+<li>price: Yelp! utiliza un rango de precios de cuatro escalones: 1 (barato), 2 (moderado), 3 (carito) y 4 (caro). Los siguientes dos parámetros, limit y offset, funcionan de la siguiente manera: Supongamos que en base a una búsqueda determinada la API arroja 1200 resultados. La API sólo nos permitirá acceder a 1000, el máximo permitido, aunque no podemos acceder de una vez a todos juntos. El parámetro ‘limit’ especifica el número de resultados que devuelve (el default es 20 y el máximo es 50). Supongamos ahora que pido los primeros 50 resultados, para acceder a los siguientes 50, debo especificar offset = 51. Es decir, offset es el parámetro que especifica el índice del listado total de resultados a partir del cual nos va a devolver los siguientes 50.</li>
+</ul>
+<p>Una vez que determinamos los parámetros hay que construir un while-loop que mientras offset sea menor a la cantidad total de negocios o menor a 1000: * Cree un url para requerir los datos en base a los parámetros definidos * Haga el requerimiento de los primeros 50 negocios * Chequee si el requerimiento fue exitoso * Transforme los resultados en un data.frame (ya que los resultados vuelven en una serie de listas anidadas) * Actualice el valor de offset para el siguiente requerimiento</p>
+<pre class="r"><code># Descarga los datos de Yelp!
+# Credenciales para la Yelp API
+client_id &lt;- &quot;tu_client_id&quot;
+client_secret &lt;- &quot;tu_client_secret&quot;
+
+# Gestiona el token
+res &lt;- POST(&quot;https://api.yelp.com/oauth2/token&quot;,
+            body = list(grant_type = &quot;client_credentials&quot;,
+                        client_id = client_id,
+                        client_secret = client_secret))
+
+token &lt;- content(res)$access_token
+
+# Endpoint de Yelp
+yelp &lt;- &quot;https://api.yelp.com/v3&quot;
+
+# Los parámetros de búsqueda están en https://www.yelp.co.uk/developers/documentation/v3/business_search
+location &lt;- &quot;Buenos Aires&quot;
+categories &lt;- &quot;salad,vegan,vegetarian,delis,delicatessen&quot;
+term &lt;- &quot;para llevar&quot;
+limit &lt;- 50
+offset &lt;- 1
+price &lt;- &quot;1,2&quot;
+
+# Todavía no sabemos la cantidad de resultados por lo que lo inicializamos con un valor de offset + 1
+total &lt;- offset + 1
+
+# Crea un data.frame donde vamos a guardar los resultados
+yelp_df &lt;- data.frame()
+
+# Loop hasta llegar al limite de 1000 resultados
+while(offset &lt; total) {
+        # Construye el url de acuerdo al query deseado
+        url &lt;- modify_url(url = yelp, 
+                          path = c(&quot;v3&quot;, &quot;businesses&quot;, &quot;search&quot;), 
+                          query = list(location = location, 
+                                       limit = limit, 
+                                       offset = offset, 
+                                       term = term, 
+                                       price = price))
+        
+        # Hace el requerimiento de los datos
+        res &lt;- GET(url = url, add_headers(&#39;Authorization&#39; = paste(&quot;bearer&quot;, token)))
+        
+        # Chequea si el requerimiento fue exitoso
+        a &lt;- http_status(res)
+        if(a$category==&#39;Success&#39;) {
+                
+                # Descarga el contenido
+                b &lt;- content(res)
+                
+                # Lo convierte en un data.frame
+                c &lt;- do.call(&quot;rbind&quot;, lapply(b$businesses, function(x) {
+                        return(as.data.frame(t(as.matrix(x))))}))
+                yelp_df &lt;- rbind(yelp_df, c)
+                
+                # Actualiza el número de resultados totales
+                total &lt;- b$total
+                
+                # Actualiza el valor de &#39;offset&#39;
+                offset = offset + 50
+                
+        } else {
+                break()
+        }
+        
+}</code></pre>
+<p>Finalmente, tenemos que lidiar con algunos inconvenientes relacionados a cómo vienen estructurados los resultados. Si observamos las variables ‘categories’, ‘coordinates’ y ‘location’ vemos que necesitan limpieza, ya que son listas que contienen algunos elementos que son necesarios y otros que no.</p>
+<p>Empecemos con ‘categories’, que tiene por cada categoría un ‘Title’ y un ‘Alias’. En esta instancia sólo nos interesa el ‘Title’, por lo que lo vamos a extraer y luego la transformamos de ‘list’ a ‘character’ y eliminamos los signos de puntuación (excepto por las comas y los espacios que nos sirven para separar las categorías).</p>
+<p>En el caso de la variable ‘coordinates’ hay que hacer algo similar. Empezamos por convertirla a ‘character’ y eliminamos los caracteres que quedaron como resabio del tipo ‘list’. Luego, separamos la columna en ‘lat’ y ‘long’ y eliminamos las palabras ‘latitude’ y ‘longitude’.</p>
+<p>Con respecto a ‘location’, también es una lista con varios elementos. En este caso, nos vamos a quedar sólo con la dirección (‘address’), y luego lo convertimos a ‘character’.</p>
+<p>Finalmente, hay que convertir cada variable de ‘list’ a ‘character’, excepto por ‘lat’ y ‘long’ que tienen que ser ‘numeric’.</p>
+<pre class="r"><code># Extrae el &#39;Title&#39; de cada categoría
+cat_title &lt;- lapply(yelp_df$categories, function(x) {
+        sapply(x, function(y) {
+                return(y$title)
+        })
+})
+# Elimina los signos de puntuación, excepto por los espacios y las comas
+yelp_df$categories &lt;- as.character(cat_title) %&gt;% 
+        gsub(pattern = &quot;c\\(&quot;, replacement = &quot;&quot;) %&gt;%
+        gsub(pattern =  &quot;[^[:alnum:][:space:],]&quot;, replacement = &quot;&quot;)
+
+
+# Convierte a &#39;character&#39; y elimina los caracteres resabio del tipo &#39;list&#39;
+yelp_df$coordinates &lt;- yelp_df$coordinates %&gt;% 
+        as.character() %&gt;% 
+        gsub(pattern = &quot;list\\(|\\)&quot;, replacement = &quot;&quot;)
+
+# Separa la variable &#39;coordinates&#39; en &#39;lat&#39; y &#39;long&#39;
+yelp_df &lt;- separate(data = yelp_df, col = coordinates, into = c(&quot;lat&quot;, &quot;long&quot;), sep = &quot;, &quot;)
+
+# Elimina la palabra &#39;latitude&#39;
+yelp_df$lat &lt;- yelp_df$lat %&gt;% 
+        gsub(pattern = &quot;latitude = &quot;, replacement = &quot;&quot;)
+
+# Elimina la palabra &#39;longitude&#39;
+yelp_df$long &lt;- yelp_df$long %&gt;% 
+        gsub(pattern = &quot;longitude = &quot;, replacement = &quot;&quot;)
+
+# Extrae &#39;address&#39; de &#39;location&#39;
+address_yelp &lt;- lapply(yelp_df$location, function(x) {
+        return(x$address1[1])
+})
+
+# Convierte a &#39;character&#39;
+yelp_df$location &lt;- as.character(address_yelp)
+
+# Convierte cada columna (excepto &#39;lat&#39; y &#39;long&#39;) en character y el objeto en dataframe
+yelp_df &lt;- apply(yelp_df, 2, as.character)
+yelp_df &lt;- as.data.frame(yelp_df, stringsAsFactors = FALSE)
+yelp_df$lat &lt;- as.numeric(yelp_df$lat)
+yelp_df$long &lt;- as.numeric(yelp_df$long)</code></pre>
+<p>Ahora sólo falta mapear, tanto la oferta como la demanda. Para esto vamos a utilizar la librería ‘leaflet’ para crear mapas interactivos. La demanda la vamos a presentar ‘clusterizada’ aprovechando opciones de clusterización propias de ‘leaflet’ que demarcan la zona del cluster, mientras que para la oferta vamos a utilizar ‘markers’ simples (puntos rojos) que al pasarles el puntero por encima nos muestran el nombre del negocio de comidas.</p>
+<pre class="r"><code>leaflet() %&gt;% 
+        addTiles() %&gt;% 
+        addMarkers(data = oficinas, 
+                   lng = ~x, 
+                   lat = ~y, 
+                   clusterOptions = markerClusterOptions()) %&gt;%
+        addCircleMarkers(data = yelp_df, 
+                         lng = ~long, 
+                         lat = ~lat, 
+                         label = ~name, 
+                         radius = 0.5,
+                         color = &#39;red&#39;,
+                         fillOpacity = 1)</code></pre>
+<p>Un ejemplo similar pero usando <a href="https://shiny.rstudio.com/">Shiny</a> para seleccionar las categorías de la demanda lo vemos acá:</p>
+<iframe src="https://martinolmos.shinyapps.io/App_Garat/" style="border: none; width: 1000px; height: 1000px">
+</iframe>
