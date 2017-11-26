@@ -1,19 +1,75 @@
----
-title: Dónde abrir el local de comidas?
-author: Martín Olmos
-date: '2017-11-26'
-slug: donde-abrir-local-de-comidas
-categories:
-  - Data science
-tags:
-  - R
-  - Shiny
-  - Yelp! API
----
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.30.2" />
+
+
+<title>Dónde abrir el local de comidas? - R2</title>
+<meta property="og:title" content="Dónde abrir el local de comidas? - R2">
 
 
 
-<p>Hace un tiempo un amigo de un amigo me pidió ayuda para determinar cuál era el mejor lugar para abrir un local de comidas usando datos públicos disponibles. Se trataba de un servicio con modalidad ‘take-away’, que brindaría una oferta económica de comida saludable para el almuerzo. Básicamente, el público en el que estaba pensando era gente que trabaja en oficinas.</p>
+  
+
+
+
+
+
+
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.11.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/R2.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/martinolmos">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/Martin_O_79">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">7 min read</span>
+    
+
+    <h1 class="article-title">Dónde abrir el local de comidas?</h1>
+
+    
+    <span class="article-date">2017/11/26</span>
+    
+
+    <div class="article-content">
+      <p>Hace un tiempo un amigo de un amigo me pidió ayuda para determinar cuál era el mejor lugar para abrir un local de comidas usando datos públicos disponibles. Se trataba de un servicio con modalidad ‘take-away’, que brindaría una oferta económica de comida saludable para el almuerzo. Básicamente, el público en el que estaba pensando era gente que trabaja en oficinas.</p>
 <p>Lo primero que hicimos fue tratar de mapear la oferta y demanda existente. Para esto, utilizamos datos del <a href="https://data.buenosaires.gob.ar/dataset/relevamiento-usos-del-suelo">relevamiento de usos del suelo</a> del GCBA (que nos permitió mapear las parcelas donde funcionan oficinas) y de la API de <a href="www.yelp.com">Yelp!</a>, la aplicación móvil que conecta gente con negocios locales, que nos permitió obtener <strong>información detallada de locales de comida con caractísticas similares a las del negocio analizado</strong>.</p>
 <p>Vamos paso por paso con el análisis que hicimos en R. Lo primero fue cargar las librerías que vamos a utilizar. En este caso ‘dplyr’ y ‘tidyr’ para manipular los datos, ‘httr’ para los requerimiento a la API de Yelp! y ‘leaflet’ para mapear.</p>
 <p>Luego, descargamos el relevamiento de usos del suelo y lo filtramos para quedarnos sólo con los rubros que nos interesan. A modo de muestra para este ejemplo, vamos a quedarnos con las categorías “INTERMEDIACION FINANCIERA Y AUXILIARES”, “SERVICIOS DE SEGUROS Y DE ADMINISTRACION DE FONDOS DE JUBILACIONES Y PENSIONES” Y “ADMINISTRACION PUBLICA, DEFENSA Y SEGURIDAD SOCIAL” de la variable “rama1” y con la categoria “OFICINAS” de la variable “tipo_2” (para ver el detalle de lo que significa cada variable y rubro pueden referirse a la <a href="https://data.buenosaires.gob.ar/api/files/documentacion-relevamiento-usos-suelo-2011.pdf/download">documentación del dataset</a>).</p>
@@ -177,3 +233,47 @@ yelp_df$long &lt;- as.numeric(yelp_df$long)</code></pre>
 <p>Un ejemplo similar pero usando <a href="https://shiny.rstudio.com/">Shiny</a> para seleccionar las categorías de la demanda lo vemos acá:</p>
 <iframe src="https://martinolmos.shinyapps.io/App_Garat/" style="border: none; width: 1000px; height: 1000px">
 </iframe>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+<script src="/js/math-code.js"></script>
+<script async src="//cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+    
+  </body>
+</html>
+

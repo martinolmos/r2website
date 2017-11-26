@@ -1,15 +1,14 @@
 ---
 title: Dónde abrir el local de comidas?
 author: Martín Olmos
-date: '2017-11-17'
+date: '2017-11-26'
 slug: donde-abrir-local-de-comidas
 categories:
   - Data science
 tags:
   - R
   - Shiny
-  - Yelp!
-  - API
+  - Yelp! API
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = FALSE, cache = FALSE, fig.align = 'center', message=FALSE, warning=FALSE, error=FALSE)

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Shiny on R2</title>
-    <link>/tags/shiny/</link>
-    <description>Recent content in Shiny on R2</description>
+    <title>Yelp Api on R2</title>
+    <link>/tags/yelp-api/</link>
+    <description>Recent content in Yelp Api on R2</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 26 Nov 2017 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/shiny/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/yelp-api/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>

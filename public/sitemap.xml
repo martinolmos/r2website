@@ -3,8 +3,8 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>/2017/11/17/donde-abrir-local-de-comidas/</loc>
-    <lastmod>2017-11-17T00:00:00+00:00</lastmod>
+    <loc>/2017/11/26/donde-abrir-local-de-comidas/</loc>
+    <lastmod>2017-11-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -23,31 +23,25 @@
   </url>
   
   <url>
-    <loc>/tags/api/</loc>
-    <lastmod>2017-11-17T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/categories/data-science/</loc>
-    <lastmod>2017-11-17T00:00:00+00:00</lastmod>
+    <lastmod>2017-11-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/post/</loc>
-    <lastmod>2017-11-17T00:00:00+00:00</lastmod>
+    <lastmod>2017-11-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/r/</loc>
-    <lastmod>2017-11-17T00:00:00+00:00</lastmod>
+    <lastmod>2017-11-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -59,25 +53,25 @@
   
   <url>
     <loc>/</loc>
-    <lastmod>2017-11-17T00:00:00+00:00</lastmod>
+    <lastmod>2017-11-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/shiny/</loc>
-    <lastmod>2017-11-17T00:00:00+00:00</lastmod>
+    <lastmod>2017-11-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/tags/</loc>
-    <lastmod>2017-11-17T00:00:00+00:00</lastmod>
+    <lastmod>2017-11-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>/tags/yelp/</loc>
-    <lastmod>2017-11-17T00:00:00+00:00</lastmod>
+    <loc>/tags/yelp-api/</loc>
+    <lastmod>2017-11-26T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
