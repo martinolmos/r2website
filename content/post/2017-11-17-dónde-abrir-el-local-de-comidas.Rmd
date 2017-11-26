@@ -11,7 +11,7 @@ tags:
   - Yelp! API
 ---
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, eval = FALSE, cache = FALSE, fig.align = 'center', message=FALSE, warning=FALSE, error=FALSE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
 Hace un tiempo un amigo de un amigo me pidió ayuda para determinar cuál era el mejor lugar para abrir un local de comidas usando datos públicos disponibles. Se trataba de un servicio con modalidad 'take-away', que brindaría una oferta económica de comida saludable para el almuerzo. Básicamente, el público en el que estaba pensando era gente que trabaja en oficinas.
