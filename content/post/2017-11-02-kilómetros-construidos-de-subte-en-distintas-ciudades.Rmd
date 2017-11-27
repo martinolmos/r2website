@@ -5,22 +5,25 @@ date: '2017-11-02'
 slug: kms-de-subte-en-ciudades
 categories:
   - R
+  - plot.ly
 tags: []
 ---
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, eval = FALSE)
 ```
 
-Gráfico interactivo de líneas simple con Plotly comparando kilómetros constuidos de Subte en distintas ciudades.
-Los datos utilizados son de [citylines.com](http://www.citylines.co/data)
+Breve tutorial sobre cómo hacer un gráfico interactivo de líneas con la [plot.ly para R][1] y [Shiny][2] comparando kilómetros construidos de Subte en Buenos Aires, Madrid, Sao Paulo y Santiago de Chile.
+Los datos utilizados son de [citylines.co][3]
 
-```{r, comment=FALSE, message=FALSE}
+```{r}
+
+# Carga las librerías a utilizar
 library(shiny)
 library(plotly)
-library(dplyr)
 
+# Lee los datos (que ya fueron previamente obtenidos y procesados)
 subte_comp <- read.csv("subte_comp.csv")
 
 # Define la interfaz de usuario
@@ -47,21 +50,23 @@ ui <- fluidPage(
    )
 )
 
-# Define server logic required to draw a histogram
+# Define la función que se va a implementar en el servidor
 server <- function(input, output) {
         
         # 'Escucha' las ciudades seleccionadas en el checkbox para subsetear los datos
         subte_data=reactive({
                 return(subte_comp[subte_comp$Ciudad %in% input$elegir_ciudades,])
         })
-   output$subtePlot <- renderPlotly({
-           # Define el gráfico de líneas
-           plot_ly(data = subte_data(), 
-                   x = ~Finalizacion, 
-                   y = ~Value,
-                   color = ~Ciudad, 
-                   type = "scatter",
-                   mode = "lines")
+        
+        # Envía el plot en base a las ciudades seleccionadas
+        output$subtePlot <- renderPlotly({
+                # Define el gráfico de líneas
+                plot_ly(data = subte_data(), 
+                        x = ~Finalizacion, 
+                        y = ~Value,
+                        color = ~Ciudad, 
+                        type = "scatter",
+                        mode = "lines")
    })
 }
 
@@ -71,3 +76,7 @@ shinyApp(ui = ui, server = server)
 ```
 
 <iframe src="https://martinolmos.shinyapps.io/subte_comp/" style="border: none; width: 1000px; height: 1000px"></iframe>
+
+[1]:https://plot.ly/r/
+[2]:https://shiny.rstudio.com/
+[3]:http://www.citylines.co/data
