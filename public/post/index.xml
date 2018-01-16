@@ -6,10 +6,21 @@
     <description>Recent content in Posts on R2</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 26 Nov 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jan 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Distancia al subte</title>
+      <link>/2018/01/15/distancia-al-subte/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/01/15/distancia-al-subte/</guid>
+      <description>En este post me propongo explorar cuán lejos vivimos los porteños del subte. Una primer forma de analizar esto es tomando la distancia de cada manzana (hay aproximadamente unas 12 mil manzanas en la Ciudad de Buenos Aires) a la estación de subte más cercana.
+Veamos primero la distribución de las distancias de cada manzana a la estación más cercana a través de un histograma.
+Vemos que aproximadamente el 6% de los centros de manzana se encuentran a una distancia de menos de 200 metros y alrededor de 12% a una distancia de entre 200 y 400.</description>
+    </item>
     
     <item>
       <title>Dónde abrir el local de comidas?</title>
