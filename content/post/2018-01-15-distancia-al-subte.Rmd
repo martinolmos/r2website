@@ -11,23 +11,23 @@ En este post me propongo explorar cuán lejos vivimos los porteños del subte. U
 
 Veamos primero la distribución de las distancias de cada manzana a la estación más cercana a través de un histograma.
 
-![](~/r2website/static/post/2018-01-15-distancia-al-subte_files/hist_min_dist1.jpeg)
+![](/post/2018-01-15-distancia-al-subte_files/hist_min_dist1.jpeg)
 
 Vemos que aproximadamente el 6% de los centros de manzana se encuentran a una distancia de menos de 200 metros y alrededor de 12% a una distancia de entre 200 y 400. Cerca del 43% de los centros de manzana se encuentran a menos de un kilómetro de la estación de subte más cercano. Pero ¿dónde se encuentran las manzanas más cercanas y dónde las más alejadas?
 
 El siguiente mapa muestra las estaciones de subte existentes a enero 2018 (los puntos rojos) y cada manzana está coloreada en función de la distacia a la estación más cercana. Las zonas más alejadas son claramente las del oeste y sudoeste de la Ciudad.
 
-![](~/r2website/static/post/2018-01-15-distancia-al-subte_files/subte_min_dist1.jpg)
+![](/post/2018-01-15-distancia-al-subte_files/subte_min_dist1.jpg)
 
 Veamos ahora qué pasa si agregamos las estaciones de subte previstas en el plan de extensión del subte aprobado por la Legislatura de la CABA.
 
-![](~/r2website/static/post/2018-01-15-distancia-al-subte_files/hist_min_dist2.jpeg)
+![](/post/2018-01-15-distancia-al-subte_files/hist_min_dist2.jpeg)
 
 Con las nuevas estaciones constuidas la distribución cambia un poco. Cerca del 8% de los centros de manzana están a menos de 200 metros, 16% entre 200 y 400 metros y alrededor del 52% se encuentran a menos de un kilómetro.
 
 Sin embargo, como vemos en el mapa el oeste y sudoeste siguen alejados.
 
-![](~/r2website/static/post/2018-01-15-distancia-al-subte_files/map_min_dist2.jpg)
+![](/post/2018-01-15-distancia-al-subte_files/map_min_dist2.jpg)
 
 Estas medidas nos permiten una primera aproximación pero tienen algunas limitaciones. En primer lugar, la distancia que estamos tomando es la distancia 'euclideana' (la distancia más corta entre dos puntos) y no la distancia 'real', que sería la que tengo que caminar para ir desde mi casa hasta el subte. En segundo lugar, el centro de manzana no es una referencia muy precisa, ya que cada uno de nosotros vive en una parcela dentro de la manzana y la distancia desde cada parcela no es la misma que desde el centro de manzana. Finalmente, esta medida no está teniendo en cuenta la densidad, ya que hay manzanas donde vive relativamente mucha gente y otras donde vive relativamente poca.
 
