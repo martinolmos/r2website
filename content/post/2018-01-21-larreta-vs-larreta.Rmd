@@ -11,7 +11,11 @@ Comienza un nuevo año y se acerca un nuevo período de sesiones ordinarias en l
 
 Una primera aproximación, gráfica, al contenido de sus discursos de apertura es a través de las nubes de palabras donde el tamaño de cada término guarda relación con la frecuencia con la que fue utilizado y el color nos permite identificar rápidamente palabras con una frecuencia similar.
 
-![](/post/2018-01-21-larreta-vs-larreta_files/wc_apertura2016.jpeg) ![](/post/2018-01-21-larreta-vs-larreta_files/wc_apertura2017.jpeg)
+Nube de palabras del discurso de apertura 2016:
+![Apertura 2016](/post/2018-01-21-larreta-vs-larreta_files/wc_apertura2016.png)
+
+Nube de palabras del discurso de apertura 2017:
+![Apertura 2017](/post/2018-01-21-larreta-vs-larreta_files/wc_apertura2017.png)  
 
 A simple vista vemos que varias palabras se repiten aunque varias aparecen con mayor frecuencia en el discurso del 2016 que en el 2017. Respecto de áreas de gobierno o de política en 2016 aparecen salud, transporte, educación y cultura, mientras que en 2017 se repiten salud y educación pero se añaden seguridad y espacio público.
 
