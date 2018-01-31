@@ -6,10 +6,20 @@
     <description>Recent content in Posts on R2</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 15 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 21 Jan 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Larreta vs Larreta</title>
+      <link>/2018/01/21/larreta-vs-larreta/</link>
+      <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/01/21/larreta-vs-larreta/</guid>
+      <description>Comienza un nuevo año y se acerca un nuevo período de sesiones ordinarias en la Legislatura porteña. Es un buen momento para analizar cómo fueron las dos anteriores aperturas de sesiones (2016 y 2017) del actual Jefe de Gobierno Horacio Rodriguez Larreta.
+Una primera aproximación, gráfica, al contenido de sus discursos de apertura es a través de las nubes de palabras donde el tamaño de cada término guarda relación con la frecuencia con la que fue utilizado y el color nos permite identificar rápidamente palabras con una frecuencia similar.</description>
+    </item>
     
     <item>
       <title>Distancia al subte</title>
@@ -40,16 +50,6 @@ Lo primero que hicimos fue tratar de mapear la oferta y demanda existente.</desc
       <guid>/2017/11/02/kms-de-subte-en-ciudades/</guid>
       <description>Breve tutorial sobre cómo hacer un gráfico interactivo de líneas con la plot.ly para R y Shiny comparando kilómetros construidos de Subte en Buenos Aires, Madrid, Sao Paulo y Santiago de Chile. Los datos utilizados son de citylines.co
 # Carga las librerías a utilizarlibrary(shiny)library(plotly)# Lee los datos (que ya fueron previamente obtenidos y procesados)subte_comp &amp;lt;- read.csv(&amp;quot;subte_comp.csv&amp;quot;)# Define la interfaz de usuarioui &amp;lt;- fluidPage(# Define el títulotitlePanel(&amp;quot;Kilómetros constuidos de subte en distintas ciudades&amp;quot;),# Define el layout sidebarLayout(# Define el panel lateralsidebarPanel(# Define el checkbox para seleccionar las ciudadescheckboxGroupInput(&amp;quot;elegir_ciudades&amp;quot;, label = &amp;quot;Eligir ciudades&amp;quot;,choices = c(&amp;quot;Buenos Aires&amp;quot;,&amp;quot;Madrid&amp;quot;,&amp;quot;Sao Paulo&amp;quot;, &amp;quot;Santiago&amp;quot;))),# Define el panel principalmainPanel(plotlyOutput(&amp;quot;subtePlot&amp;quot;))))# Define la función que se va a implementar en el servidorserver &amp;lt;- function(input, output) {# &amp;#39;Escucha&amp;#39; las ciudades seleccionadas en el checkbox para subsetear los datossubte_data=reactive({return(subte_comp[subte_comp$Ciudad %in% input$elegir_ciudades,])})# Envía el plot en base a las ciudades seleccionadasoutput$subtePlot &amp;lt;- renderPlotly({# Define el gráfico de líneasplot_ly(data = subte_data(), x = ~Finalizacion, y = ~Value,color = ~Ciudad, type = &amp;quot;scatter&amp;quot;,mode = &amp;quot;lines&amp;quot;)})}# Corre la app shinyApp(ui = ui, server = server)</description>
-    </item>
-    
-    <item>
-      <title>Mapeando estacionamientos (no construidos)</title>
-      <link>/2017/10/31/mapeando-estacionamientos-no-construidos/</link>
-      <pubDate>Tue, 31 Oct 2017 21:48:51 -0700</pubDate>
-      
-      <guid>/2017/10/31/mapeando-estacionamientos-no-construidos/</guid>
-      <description>Aquí voy a compartir el código para la visualización que acompañó éste artículo de Juan Pablo Pilatti, del Instituto iCiudad donde utilizamos Shiny y Leaflet para hacer un mapa interactivo de los estacionamientos aprobados por la Legislatura pero nunca construidos por el Ejecutivo.
-library(shiny)library(leaflet)library(sp)library(sf)library(rgdal)# Define la interfaz de usuarioui &amp;lt;- shinyUI(# fluidPage es un layout común de ShinyfluidPage(# Título principaltitlePanel(&amp;quot;Estacionamientos Aprobados por Ley&amp;quot;),# Situa el mapa de leaflet en el panel principalmainPanel(leafletOutput(&amp;quot;map&amp;quot;, width = 800, height = 800))))# Define la función en el servidorserver &amp;lt;- function(input, output) {# Descarga los datosestac_sf &amp;lt;- read.</description>
     </item>
     
   </channel>
