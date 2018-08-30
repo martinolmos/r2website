@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Neo4j on R2</title>
+    <link>/categories/neo4j/</link>
+    <description>Recent content in Neo4j on R2</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 30 Aug 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/neo4j/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Jugando con neo4j y los datos de los mundiales</title>
+      <link>/2018/08/30/jugando-con-neo4j-y-los-datos-de-los-mundiales/</link>
+      <pubDate>Thu, 30 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/08/30/jugando-con-neo4j-y-los-datos-de-los-mundiales/</guid>
+      <description>Como parte de la Especialización en Ciencia de Datos del ITBA participé de un seminario sobre bases de datos de grafos donde jugamos con Neo4j y datos históricos de los mundiales de fútbol.
+A continuación algunas de las queries más interesantes.
+1.¿Quiénes son los países que ganaron la Copa del Mundo siendo anfitriones? MATCH (match:Match {round: &amp;quot;Final&amp;quot;})&amp;lt;-[hostPlayed:PLAYED_IN]-(host:Country), (host)&amp;lt;-[:HOSTED_BY]-(worldCup), (worldCup)-[:CONTAINS_MATCH]-&amp;gt;(match), (match)&amp;lt;-[oppositionPlayed:PLAYED_IN]-(opposition) WHERE (hostPlayed.score &amp;gt; oppositionPlayed.score) OR (hostPlayed.penalties &amp;gt; oppositionPlayed.score) RETURN host, worldCup ORDER BY worldCup.</description>
+    </item>
+    
+  </channel>
+</rss>

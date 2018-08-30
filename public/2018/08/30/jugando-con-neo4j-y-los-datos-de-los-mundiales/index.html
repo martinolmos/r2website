@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.30.2" />
+
+
+<title>Jugando con neo4j y los datos de los mundiales - R2</title>
+<meta property="og:title" content="Jugando con neo4j y los datos de los mundiales - R2">
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.11.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="/css/fonts.css" media="all">
+<link rel="stylesheet" href="/css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="/" class="nav-logo">
+    <img src="/images/R2.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="/about/">About</a></li>
+    
+    <li><a href="https://github.com/rbind/r2website">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/r2website">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">2 min read</span>
+    
+
+    <h1 class="article-title">Jugando con neo4j y los datos de los mundiales</h1>
+
+    
+    <span class="article-date">2018/08/30</span>
+    
+
+    <div class="article-content">
+      
+
+<p>Como parte de la <a href="https://www.itba.edu.ar/postgrado/maestrias-y-especializaciones/especializacion-en-ciencia-de-datos/">Especialización en Ciencia de Datos del ITBA</a> participé de un seminario sobre <a href="https://es.wikipedia.org/wiki/Base_de_datos_orientada_a_grafos">bases de datos de grafos</a> donde jugamos con <a href="https://neo4j.com/">Neo4j</a> y datos históricos de los mundiales de fútbol.</p>
+
+<p>A continuación algunas de las queries más interesantes.</p>
+
+<h3 id="1-quiénes-son-los-países-que-ganaron-la-copa-del-mundo-siendo-anfitriones">1.¿Quiénes son los países que ganaron la Copa del Mundo siendo anfitriones?</h3>
+
+<pre><code>MATCH (match:Match {round: &quot;Final&quot;})&lt;-[hostPlayed:PLAYED_IN]-(host:Country),
+      (host)&lt;-[:HOSTED_BY]-(worldCup),
+      (worldCup)-[:CONTAINS_MATCH]-&gt;(match),
+      (match)&lt;-[oppositionPlayed:PLAYED_IN]-(opposition)
+WHERE (hostPlayed.score &gt; oppositionPlayed.score) OR (hostPlayed.penalties &gt; oppositionPlayed.score)
+RETURN host, worldCup
+ORDER BY worldCup.year
+</code></pre>
+
+<h3 id="grafo-1">Grafo 1</h3>
+
+<p><img src="/post/2018-08-30-jugando-con-neo4j-y-los-datos-de-los-mundiales/Anfitriones ganadores.png" alt="Anfitriones ganadores de la Copa" /></p>
+
+<h3 id="2-qué-países-nunca-ganaron-un-partido-en-un-mundial">2.¿Qué países nunca ganaron un partido en un mundial?</h3>
+
+<pre><code>MATCH (loser:Country)-[loserPlayed:PLAYED_IN]-&gt;(match:Match)&lt;-[winnerPlayed:PLAYED_IN]-(winner:Country)
+WHERE (winnerPlayed.score &gt; loserPlayed.score)
+WITH collect(distinct winner) as winners
+MATCH (losers:Country)
+WHERE NOT losers IN winners
+RETURN losers.name        
+</code></pre>
+
+<h3 id="respuesta-2">Respuesta 2</h3>
+
+<p>&ldquo;Egypt&rdquo;
+&ldquo;Iceland&rdquo;
+&ldquo;Panama&rdquo;
+&ldquo;Honduras&rdquo;
+&ldquo;New Zealand&rdquo;
+&ldquo;Angola&rdquo;
+&ldquo;Togo&rdquo;
+&ldquo;Serbia and Montenegro&rdquo;
+&ldquo;Trinidad and Tobago&rdquo;
+&ldquo;China PR&rdquo;
+&ldquo;Bolivia&rdquo;
+&ldquo;United Arab Emirates&rdquo;
+&ldquo;Iraq&rdquo;
+&ldquo;Canada&rdquo;
+&ldquo;Kuwait&rdquo;
+&ldquo;El Salvador&rdquo;
+&ldquo;Zaire&rdquo;
+&ldquo;Haiti&rdquo;
+&ldquo;Israel&rdquo;
+&ldquo;Dutch East Indies&rdquo;</p>
+
+<h3 id="3-cuál-es-el-máximo-número-de-goles-en-un-partido-de-mundial-sumando-los-dos-equipos">3.¿Cuál es el máximo número de goles en un partido de Mundial (sumando los dos equipos)?</h3>
+
+<pre><code>MATCH(match:Match)
+RETURN max(match.h_score + match.a_score) as max_goals
+</code></pre>
+
+<h3 id="respuesta-3">Respuesta 3</h3>
+
+<p>12 goles</p>
+
+<h3 id="4-cuál-es-el-estadio-en-el-que-se-jugaron-más-partidos-de-mundial">4.¿Cuál es el estadio en el que se jugaron más partidos de Mundial?</h3>
+
+<pre><code>MATCH (stad:Stadium)&lt;-[:PLAYED_IN_STADIUM]-(match:Match)
+RETURN stad.name, count(match) as cant
+ORDER BY cant DESC
+LIMIT 1
+</code></pre>
+
+<h3 id="respuesta-4">Respuesta 4</h3>
+
+<p>Estadio Azteca, 19 partidos</p>
+
+<h3 id="5-qué-pais-hizo-la-mayor-cantidad-de-goles-a-lo-largo-de-todos-los-mundiales">5.¿Qué pais hizo la mayor cantidad de goles a lo largo de todos los mundiales?</h3>
+
+<pre><code>MATCH(c1:Country)-[r:PLAYED_IN]-&gt;(match:Match)
+RETURN c1.name, sum(r.score) as sum_goals
+ORDER BY sum_goals DESC
+LIMIT 1
+</code></pre>
+
+<h3 id="respuesta-5">Respuesta 5</h3>
+
+<p>Brasil, 229 goles</p>
+
+<h3 id="6-qué-país-participó-de-la-mayor-cantidad-de-mundiales">6.¿Qué país participó de la mayor cantidad de mundiales?</h3>
+
+<pre><code>MATCH(c1:Country)-[r:NAMED_SQUAD]-&gt;(squad:Squad)-[:FOR_WORLD_CUP]-&gt;(wc:WorldCup)
+RETURN c1.name, count(c1) as cant
+ORDER BY cant DESC
+LIMIT 1
+</code></pre>
+
+<h3 id="respuesta-6">Respuesta 6</h3>
+
+<p>Brasil, 21 mundiales</p>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="/index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="/images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
