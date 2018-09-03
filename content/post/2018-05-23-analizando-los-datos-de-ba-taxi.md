@@ -28,35 +28,35 @@ En el gráfico se ven claramente gran cantidad de viajes los viernes a la noche 
 Veamos ahora cómo se distribuyen los viajes según la cantidad de pasajeros:
 
 <iframe align = "center" width = "400" height = "600"
-https://public.tableau.com/views/ViajesdeBATaxipormes/Sheet5?:embed=true&:showVizHome=no&:display_count=yes&publish=yes>
+src="https://public.tableau.com/views/ViajesdeBATaxipormes/Sheet5?:embed=true&:showVizHome=no&:display_count=yes&:publish=yes">
 </iframe>
 
 
 Barrios de origen y destino:
 
 <iframe align = "center" width = "650" height = "650"
-https://public.tableau.com/views/ViajesdeBATaxipormes/Sheet10?:embed=true&:showVizHome=no&:display_count=yes>
+src="https://public.tableau.com/views/ViajesdeBATaxipormes/Sheet10?:embed=true&:showVizHome=no&:display_count=yes">
 </iframe>
 
-Relación entre distancia y duración del viaje:
+Relación entre distancia y duración del viaje (en metros y segundos):
 
 <iframe align = "center" width = "650" height = "650"
-https://public.tableau.com/views/ViajesdeBATaxipormes/Sheet9?:embed=true&:showVizHome=no&:display_count=yes>
+src="https://public.tableau.com/views/ViajesdeBATaxipormes/Sheet9?:embed=true&:showVizHome=no&:display_count=yes">
 </iframe>
 
 Origen de los viajes:
 
-<iframe align = "center" width = "650" height = "650"
-https://public.tableau.com/views/ViajesdeBATaxipormes/Sheet7?:embed=y&:display_count=yes>
+<iframe align = "center" width = "850" height = "750"
+src="https://public.tableau.com/views/ViajesdeBATaxipormes/Sheet7?:embed=y&:showVizHome=no&:display_count=yes">
 </iframe>
 
 Destino de los viajes:
 
-<iframe align = "center" width = "650" height = "650"
-https://public.tableau.com/views/ViajesdeBATaxipormes/Sheet8?:embed=y&:display_count=yes>
+<iframe align = "center" width = "850" height = "750"
+src="https://public.tableau.com/views/ViajesdeBATaxipormes/Sheet8?:embed=y&:showVizHome=no&:display_count=yes">
 </iframe>
 
-Finalmente, recomiendo [este][2] interesantísimo análisis que hizo [@vazquezbrust](https://twitter.com/vazquezbrust) con estos datos sobre la mafia de los taxis.
+Finalmente, recomiendo [este][2] interesantísimo análisis que hizo [@vazquezbrust](https://twitter.com/vazquezbrust) con los mismos datos sobre la mafia de los taxis.
 
 
 [1]:https://data.world/vazquez-brust/viajes-solicitados-por-ba-taxi
