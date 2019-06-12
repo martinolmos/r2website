@@ -6,10 +6,19 @@
     <description>Recent content in Posts on R2</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 30 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Oct 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Análisis bibliométrico</title>
+      <link>/2018/10/01/an%C3%A1lisis-bibliom%C3%A9trico/</link>
+      <pubDate>Mon, 01 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/2018/10/01/an%C3%A1lisis-bibliom%C3%A9trico/</guid>
+      <description>Este post es una síntesis de una parte de un trabajo de consultoría consistente en un análisis bibliométrico de los trabajos publicados sobre la utilización de sensores remotos en aplicaciones ambientales. De acuerdo a la OCDE (Organisation for Economic Co-operation and Development 2006) la bibliometría es el análisis estadístico de publicaciones escritas. La aplicación de técnicas cuantitativas y estadísticas al análisis de publicaciones científicas y sus respectivas citas bibliográficas es muy utilizado en la actualidad para evaluar el crecimiento y la maduración de un campo científico, sus principales autores y redes de colaboración así como tendencias en la comunidad científica.</description>
+    </item>
     
     <item>
       <title>Jugando con neo4j y los datos de los mundiales</title>

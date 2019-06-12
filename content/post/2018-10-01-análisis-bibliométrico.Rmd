@@ -1,0 +1,117 @@
+---
+title: Análisis bibliométrico
+subtitle: Aplicaciones ambientales de teledetección satelital
+author: 'Martin Olmos'
+date: '2018-10-01'
+slug: análisis-bibliométrico
+categories: []
+tags: []
+editor_options: 
+  chunk_output_type: inline
+bibliography: bibliography.bib
+link-citations: true
+---
+```{r, echo=FALSE, comment=FALSE, message=FALSE, warning=FALSE}
+library(bibliometrix)
+load("C:/Users/marti/Documents/OPDS/bibliometrix/.RData")
+```
+
+Este post es una síntesis de una parte de un trabajo de consultoría consistente en un análisis bibliométrico de los trabajos publicados sobre la utilización de sensores remotos en aplicaciones ambientales. De acuerdo a la OCDE [@OrganisationforEconomicCo-operationandDevelopment2006] la bibliometría es el análisis estadístico de publicaciones escritas. La aplicación de técnicas cuantitativas y estadísticas al análisis de publicaciones científicas y sus respectivas citas bibliográficas es muy utilizado en la actualidad para evaluar el crecimiento y la maduración de un campo científico, sus principales autores y redes de colaboración así como tendencias en la comunidad científica.
+
+Los datos utilizados son de SCOPUS (http://www.scopus.com). SCOPUS es una de las bases de datos más grandes de citas y *abstracts* de literatura científica revisada por pares o *peer-reviewed*. Realicé una búsqueda de  artículos que contengan la frase *'remote sensing'* en el título, abstract o palabras clave dentro del área de Ciencias del Ambiente en los últimos 10 años (entre 2009 y 2018 inclusive) y obtuve 14655 resultados.
+
+El análisis se realizó utilizando la librería de R 'Bibliometrix' de Massimo Aria y Corrado Cuccurullo. 'Bibliometrix' es un paquete que provee distintas rutinas para importar datos bibliográficos de SCOPUS y otras bases de datos y permite constuir distintas matrices para análisis bibliométrico. Escuché por primera vez sobre este paquete en [LatinR2018](https://github.com/LatinR/presentaciones-LatinR2018) y me resutló de muchísima utilidad. 
+
+Comienzo leyendo los archivos que descargué de Scopus y convirtiéndolos en dataframe
+
+```{r, eval=FALSE}
+library(tidyverse)
+library(bibliometrix)
+
+files <- list.files(pattern = "^scopus")
+
+for(file in seq_along(files)) {
+        rawdata <- readFiles(files[file])
+        if(exists("mydata")) {
+                mydata <- rbind(mydata, scopus2df(rawdata))
+                
+        } else {
+                mydata <- scopus2df(rawdata)                
+        }
+}
+
+myanalysis <- biblioAnalysis(M = mydata)
+
+```
+
+### Métricas básicas
+
+Veamos las métricas básicas
+
+```{r, eval=FALSE}
+
+scopus_summary <- summary(object = myanalysis, k = 10, pause = FALSE)
+scopus_summary
+```
+```{r, echo=FALSE}
+scopus_summary
+```
+
+Las métricas básicas muestran que, tal como se mencionó anteriormente, hay 14655 artículos de 751 fuentes y 37.983 autores (sólo 314 artículos con un solo autor). Además, existen 28.958 palabras claves definidas por los autores y 56.265 palabras claves asociadas por SCOPUS. Estas palabras claves permitirán una aproximación a los temas específicos y a las aplicaciones ambientales documentadas en los artículos.
+
+La producción académica a lo largo de la serie ha ido aumentando consistentemente hasta el 2016 (1885 papers) para luego declinar levemente en 2017 (1844 papers) y más pronunciadamente en 2018 (1398 papers).
+
+```{r}
+plot(x = myanalysis, k = 10, pause = FALSE)
+
+```
+
+Con respecto al país de origen de los autores, el ranking está liderado por China (3334) y EEUU (3116) a una distancia considerable de India, con 970 publicaciones y Alemania con 582. En el décimo lugar asoma el primer país latinoamericano: Brasil, con 279 artículos.
+
+El ranking de citas bibliográficas por país lo lidera claramente EEUU con 54486, seguido por China con 26810 y Alemania con 11867, aunque si se pondera por la cantidad de artículos el ranking es encabezado por Países Bajos (21.12 citas por artículo), seguido por Alemania (20.39 citas por artículo) y el Reino Unido (18.73 citas por artículo).
+
+El *paper* más citado es [@Giri2011] con 681 citas. Este paper analiza la extensión y distribución de bosques de manglares mediante técnicas de clasificación supervisada y no supervisada con imágenes Landsat. Entre los 10 más citados el más reciente es el paper de Van Dijk, A. I. J. M. et al. (2013) en el que se analizan los conductores y los impactos de la peor sequía sufrida en el sudeste de Australia entre 2001 y 2009 mediante la combinación de datos climáticos, del agua, económicos y de teledetección.
+
+Con respecto a las palabras clave más utilizadas, descartando las más genéricas como REMOTE SENSING, SATELLITE IMAGERY o GIS, vemos que predominan tipos de imágenes o satélites (MODIS, LANDSAT) y aplicaciones o áreas de estudio (NDVI, LAND USE, LAND COVER, CLIMATE CHANGE, SOIL MOISTURE, etc).
+
+<center>
+![*Palabras clave de los autores*](/post/2018-10-01-análisis-bibliométrico_files/scopus_keywords1.jpeg){ width=100% }
+![*Palabras clave de Scopus*](/post/2018-10-01-análisis-bibliométrico_files/scopus_keywords2.jpeg){ width=100% }
+
+</center>
+
+También podemos ver las relaciones entre las palabras. 
+Para visualizar distintos tipos de relaciones (entre palabras claves, redes de colaboración entre autores, países, etc.) bibliometrix da la opción de utilizar VOSviewer(http://vosviewer.com)
+
+<center>
+
+![*Relaciones entre palabras clave*](/post/2018-10-01-análisis-bibliométrico_files/scopus_keywords3.jpg){ width=100% }
+
+</center>
+
+A continuación se analizarán más en detalle las redes de colaboración entre países. Para mayor claridad y teniendo en cuenta las mejoras técnicas de los satélites en los últimos tiempos, conviene restringir el análisis a los últimos 5 años. 
+
+### Redes de colaboración entre países
+
+<center>
+![*Redes de colaboración entre países*](/post/2018-10-01-análisis-bibliométrico_files/scopus_countries1.jpg){ width=100% }
+</center>
+
+Veamos específicamente las redes de colaboración de la Argentina
+
+![*Redes de colaboración de la Argentina*](/post/2018-10-01-análisis-bibliométrico_files/scopus_countriesARG.jpg){ width=100% }
+
+Finalmente, veamos las métricas más relevantes de autores argentinos
+
+
+```{r}
+
+plot(x = myanalysisARG, k = 10, pause = FALSE)
+
+```
+
+
+
+
+
+

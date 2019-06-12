@@ -1,0 +1,207 @@
+---
+title: Análisis bibliométrico
+subtitle: Aplicaciones ambientales de teledetección satelital
+author: 'Martin Olmos'
+date: '2018-10-01'
+slug: análisis-bibliométrico
+categories: []
+tags: []
+editor_options: 
+  chunk_output_type: inline
+bibliography: bibliography.bib
+link-citations: true
+---
+
+
+
+<p>Este post es una síntesis de una parte de un trabajo de consultoría consistente en un análisis bibliométrico de los trabajos publicados sobre la utilización de sensores remotos en aplicaciones ambientales. De acuerdo a la OCDE <span class="citation">(Organisation for Economic Co-operation and Development <a href="#ref-OrganisationforEconomicCo-operationandDevelopment2006">2006</a>)</span> la bibliometría es el análisis estadístico de publicaciones escritas. La aplicación de técnicas cuantitativas y estadísticas al análisis de publicaciones científicas y sus respectivas citas bibliográficas es muy utilizado en la actualidad para evaluar el crecimiento y la maduración de un campo científico, sus principales autores y redes de colaboración así como tendencias en la comunidad científica.</p>
+<p>Los datos utilizados son de SCOPUS (<a href="http://www.scopus.com" class="uri">http://www.scopus.com</a>). SCOPUS es una de las bases de datos más grandes de citas y <em>abstracts</em> de literatura científica revisada por pares o <em>peer-reviewed</em>. Realicé una búsqueda de artículos que contengan la frase <em>‘remote sensing’</em> en el título, abstract o palabras clave dentro del área de Ciencias del Ambiente en los últimos 10 años (entre 2009 y 2018 inclusive) y obtuve 14655 resultados.</p>
+<p>El análisis se realizó utilizando la librería de R ‘Bibliometrix’ de Massimo Aria y Corrado Cuccurullo. ‘Bibliometrix’ es un paquete que provee distintas rutinas para importar datos bibliográficos de SCOPUS y otras bases de datos y permite constuir distintas matrices para análisis bibliométrico. Escuché por primera vez sobre este paquete en <a href="https://github.com/LatinR/presentaciones-LatinR2018">LatinR2018</a> y me resutló de muchísima utilidad.</p>
+<p>Comienzo leyendo los archivos que descargué de Scopus y convirtiéndolos en dataframe</p>
+<pre class="r"><code>library(tidyverse)
+library(bibliometrix)
+
+files &lt;- list.files(pattern = &quot;^scopus&quot;)
+
+for(file in seq_along(files)) {
+        rawdata &lt;- readFiles(files[file])
+        if(exists(&quot;mydata&quot;)) {
+                mydata &lt;- rbind(mydata, scopus2df(rawdata))
+                
+        } else {
+                mydata &lt;- scopus2df(rawdata)                
+        }
+}
+
+myanalysis &lt;- biblioAnalysis(M = mydata)</code></pre>
+<div id="metricas-basicas" class="section level3">
+<h3>Métricas básicas</h3>
+<p>Veamos las métricas básicas</p>
+<pre class="r"><code>scopus_summary &lt;- summary(object = myanalysis, k = 10, pause = FALSE)
+scopus_summary</code></pre>
+<pre><code>## $MainInformation
+##  [1] &quot;\n\nMain Information about data\n\n&quot;                 
+##  [2] &quot;Documents                             14655 \n&quot;      
+##  [3] &quot;Sources (Journals, Books, etc.)       751 \n&quot;        
+##  [4] &quot;Keywords Plus (ID)                    56265 \n&quot;      
+##  [5] &quot;Author&#39;s Keywords (DE)                28958 \n&quot;      
+##  [6] &quot;Period                                2009 - 2018 \n&quot;
+##  [7] &quot;Average citations per documents       12.82 \n\n&quot;    
+##  [8] &quot;Authors                               37983 \n&quot;      
+##  [9] &quot;Author Appearances                    68744 \n&quot;      
+## [10] &quot;Authors of single authored documents  314 \n&quot;        
+## [11] &quot;Authors of multi authored documents   37669 \n\n&quot;    
+## [12] &quot;Documents per Author                  0.386 \n&quot;      
+## [13] &quot;Authors per Document                  2.59 \n&quot;       
+## [14] &quot;Co-Authors per Documents              4.69 \n&quot;       
+## [15] &quot;Collaboration Index                   2.69 \n&quot;       
+## [16] &quot;\n&quot;                                                  
+## 
+## $AnnualProduction
+##    Year    Articles
+## 1     2009      978
+## 2     2010     1049
+## 3     2011     1161
+## 4     2012     1362
+## 5     2013     1483
+## 6     2014     1700
+## 7     2015     1795
+## 8     2016     1885
+## 9     2017     1844
+## 10    2018     1398
+## 
+## $AnnualGrowthRate
+## [1] 4.049722
+## 
+## $MostProdAuthors
+##    Authors        Articles Authors        Articles Fractionalized
+## 1         ZHANG Y      194      ZHANG Y                      39.0
+## 2         LIU Y        168      LIU Y                        38.8
+## 3         WANG Y       146      WANG J                       29.2
+## 4         LI X         144      WANG Y                       28.9
+## 5         WANG J       140      LI X                         28.5
+## 6         LI Y         133      LI J                         28.3
+## 7         LI J         126      PRADHAN B                    25.8
+## 8         ZHANG X      114      LI Y                         23.9
+## 9         ZHANG J      106      ZHANG L                      21.8
+## 10        LIU J        104      ZHANG J                      21.2
+## 
+## $MostCitedPapers
+##                             Paper           TC TCperYear
+## 1  GIRI C, 2011, GLOBAL ECOL BIOGEOGR      681      97.3
+## 2  KEELEY JE, 2009, INT J WILDLAND FIRE    579      64.3
+## 3  BURKHARD B, 2012, ECOL INDIC            529      88.2
+## 4  WHITE MA, 2009, GLOBAL CHANGE BIOL      454      50.4
+## 5  JUNG M, 2011, J GEOPHYS RES G BIOGEOSCI 444      63.4
+## 6  SCHNEIDER A, 2009, ENVIRON RES LETT     369      41.0
+## 7  VANDIJK AIJM, 2013, WATER RESOUR RES    337      67.4
+## 8  ELMENDORF SC, 2012, NAT CLIM CHANGE     317      52.8
+## 9  DEWAN AM, 2009, APPL GEOGR              284      31.6
+## 10 NETELER M, 2012, ENVIRON MODEL SOFTW    283      47.2
+## 
+## $MostProdCountries
+##         Country   Articles   Freq  SCP MCP MCP_Ratio
+## 1  CHINA              3334 0.2317 2481 853     0.256
+## 2  USA                3116 0.2165 2326 790     0.254
+## 3  INDIA               970 0.0674  869 101     0.104
+## 4  GERMANY             582 0.0404  269 313     0.538
+## 5  ITALY               502 0.0349  311 191     0.380
+## 6  CANADA              460 0.0320  287 173     0.376
+## 7  AUSTRALIA           458 0.0318  296 162     0.354
+## 8  UNITED KINGDOM      448 0.0311  226 222     0.496
+## 9  FRANCE              325 0.0226  148 177     0.545
+## 10 BRAZIL              279 0.0194  219  60     0.215
+## 
+## $TCperCountries
+##            Country      Total Citations Average Article Citations
+## 1  USA                            54486                     17.49
+## 2  CHINA                          26810                      8.04
+## 3  GERMANY                        11867                     20.39
+## 4  UNITED KINGDOM                  8390                     18.73
+## 5  ITALY                           7798                     15.53
+## 6  AUSTRALIA                       7511                     16.40
+## 7  INDIA                           7276                      7.50
+## 8  CANADA                          7212                     15.68
+## 9  FRANCE                          5064                     15.58
+## 10 NETHERLANDS                     4457                     21.12
+## 
+## $MostRelSources
+##                                                           Sources       
+## 1  INTERNATIONAL JOURNAL OF APPLIED EARTH OBSERVATION AND GEOINFORMATION
+## 2  SHENGTAI XUEBAO/ ACTA ECOLOGICA SINICA                               
+## 3  ENVIRONMENTAL MONITORING AND ASSESSMENT                              
+## 4  ENVIRONMENTAL EARTH SCIENCES                                         
+## 5  JOURNAL OF HYDROLOGY                                                 
+## 6  ARABIAN JOURNAL OF GEOSCIENCES                                       
+## 7  SCIENCE OF THE TOTAL ENVIRONMENT                                     
+## 8  NATURAL HAZARDS                                                      
+## 9  GEOCARTO INTERNATIONAL                                               
+## 10 ECOLOGICAL INDICATORS                                                
+##    Articles
+## 1       515
+## 2       407
+## 3       386
+## 4       345
+## 5       287
+## 6       266
+## 7       259
+## 8       244
+## 9       238
+## 10      236
+## 
+## $MostRelKeywords
+##    Author Keywords (DE)      Articles   Keywords-Plus (ID)     Articles
+## 1         REMOTE SENSING         4844 REMOTE SENSING              14307
+## 2         GIS                     876 SATELLITE IMAGERY            2884
+## 3         MODIS                   522 ENVIRONMENTAL MONITORING     2246
+## 4         NDVI                    398 GIS                          1980
+## 5         LANDSAT                 367 SATELLITE DATA               1873
+## 6         CLIMATE CHANGE          365 MODIS                        1421
+## 7         EVAPOTRANSPIRATION      290 LAND USE                     1404
+## 8         LIDAR                   274 LAND COVER                   1298
+## 9         LAND USE                238 CLIMATE CHANGE               1263
+## 10        SOIL MOISTURE           190 LANDSAT                      1212</code></pre>
+<p>Las métricas básicas muestran que, tal como se mencionó anteriormente, hay 14655 artículos de 751 fuentes y 37.983 autores (sólo 314 artículos con un solo autor). Además, existen 28.958 palabras claves definidas por los autores y 56.265 palabras claves asociadas por SCOPUS. Estas palabras claves permitirán una aproximación a los temas específicos y a las aplicaciones ambientales documentadas en los artículos.</p>
+<p>La producción académica a lo largo de la serie ha ido aumentando consistentemente hasta el 2016 (1885 papers) para luego declinar levemente en 2017 (1844 papers) y más pronunciadamente en 2018 (1398 papers).</p>
+<pre class="r"><code>plot(x = myanalysis, k = 10, pause = FALSE)</code></pre>
+<p><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-5-2.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-5-3.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-5-4.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-5-5.png" width="672" /></p>
+<p>Con respecto al país de origen de los autores, el ranking está liderado por China (3334) y EEUU (3116) a una distancia considerable de India, con 970 publicaciones y Alemania con 582. En el décimo lugar asoma el primer país latinoamericano: Brasil, con 279 artículos.</p>
+<p>El ranking de citas bibliográficas por país lo lidera claramente EEUU con 54486, seguido por China con 26810 y Alemania con 11867, aunque si se pondera por la cantidad de artículos el ranking es encabezado por Países Bajos (21.12 citas por artículo), seguido por Alemania (20.39 citas por artículo) y el Reino Unido (18.73 citas por artículo).</p>
+<p>El <em>paper</em> más citado es <span class="citation">(Giri et al. <a href="#ref-Giri2011">2011</a>)</span> con 681 citas. Este paper analiza la extensión y distribución de bosques de manglares mediante técnicas de clasificación supervisada y no supervisada con imágenes Landsat. Entre los 10 más citados el más reciente es el paper de Van Dijk, A. I. J. M. et al. (2013) en el que se analizan los conductores y los impactos de la peor sequía sufrida en el sudeste de Australia entre 2001 y 2009 mediante la combinación de datos climáticos, del agua, económicos y de teledetección.</p>
+<p>Con respecto a las palabras clave más utilizadas, descartando las más genéricas como REMOTE SENSING, SATELLITE IMAGERY o GIS, vemos que predominan tipos de imágenes o satélites (MODIS, LANDSAT) y aplicaciones o áreas de estudio (NDVI, LAND USE, LAND COVER, CLIMATE CHANGE, SOIL MOISTURE, etc).</p>
+<center>
+<p><img src="/post/2018-10-01-análisis-bibliométrico_files/scopus_keywords1.jpeg" alt="Palabras clave de los autores" style="width:100.0%" />
+<img src="/post/2018-10-01-análisis-bibliométrico_files/scopus_keywords2.jpeg" alt="Palabras clave de Scopus" style="width:100.0%" /></p>
+</center>
+<p>También podemos ver las relaciones entre las palabras.
+Para visualizar distintos tipos de relaciones (entre palabras claves, redes de colaboración entre autores, países, etc.) bibliometrix da la opción de utilizar VOSviewer(<a href="http://vosviewer.com" class="uri">http://vosviewer.com</a>)</p>
+<center>
+<div class="figure">
+<img src="/post/2018-10-01-análisis-bibliométrico_files/scopus_keywords3.jpg" alt="Relaciones entre palabras clave" style="width:100.0%" />
+<p class="caption"><em>Relaciones entre palabras clave</em></p>
+</div>
+</center>
+<p>A continuación se analizarán más en detalle las redes de colaboración entre países. Para mayor claridad y teniendo en cuenta las mejoras técnicas de los satélites en los últimos tiempos, conviene restringir el análisis a los últimos 5 años.</p>
+</div>
+<div id="redes-de-colaboracion-entre-paises" class="section level3">
+<h3>Redes de colaboración entre países</h3>
+<center>
+<img src="/post/2018-10-01-análisis-bibliométrico_files/scopus_countries1.jpg" alt="Redes de colaboración entre países" style="width:100.0%" />
+</center>
+<p>Veamos específicamente las redes de colaboración de la Argentina</p>
+<div class="figure">
+<img src="/post/2018-10-01-análisis-bibliométrico_files/scopus_countriesARG.jpg" alt="Redes de colaboración de la Argentina" style="width:100.0%" />
+<p class="caption"><em>Redes de colaboración de la Argentina</em></p>
+</div>
+<p>Finalmente, veamos las métricas más relevantes de autores argentinos</p>
+<pre class="r"><code>plot(x = myanalysisARG, k = 10, pause = FALSE)</code></pre>
+<p><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-6-1.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-6-2.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-6-3.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-6-4.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-6-5.png" width="672" /></p>
+<div id="refs" class="references">
+<div id="ref-Giri2011">
+<p>Giri, C, E Ochieng, L L Tieszen, Z Zhu, A Singh, T Loveland, J Masek, and N Duke. 2011. “Status and distribution of mangrove forests of the world using earth observation satellite data.” <em>Glob. Ecol. Biogeogr.</em></p>
+</div>
+<div id="ref-OrganisationforEconomicCo-operationandDevelopment2006">
+<p>Organisation for Economic Co-operation and Development. 2006. “BED-DAYS - Glossary of Statistical Terms.” <a href="https://stats.oecd.org/glossary/detail.asp?ID=194">https://stats.oecd.org/glossary/detail.asp?ID=194</a>.</p>
+</div>
+</div>
+</div>
