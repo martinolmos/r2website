@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Hugo 0.30.2" />
+<meta name="generator" content="Hugo 0.55.6" />
 
 
 <title>Análisis bibliométrico - Aplicaciones ambientales de teledetección satelital  - R2</title>
@@ -69,7 +69,10 @@
     
 
     <div class="article-content">
-      <p>Este post es una síntesis de una parte de un trabajo de consultoría consistente en un análisis bibliométrico de los trabajos publicados sobre la utilización de sensores remotos en aplicaciones ambientales. De acuerdo a la OCDE <span class="citation">(Organisation for Economic Co-operation and Development <a href="#ref-OrganisationforEconomicCo-operationandDevelopment2006">2006</a>)</span> la bibliometría es el análisis estadístico de publicaciones escritas. La aplicación de técnicas cuantitativas y estadísticas al análisis de publicaciones científicas y sus respectivas citas bibliográficas es muy utilizado en la actualidad para evaluar el crecimiento y la maduración de un campo científico, sus principales autores y redes de colaboración así como tendencias en la comunidad científica.</p>
+      
+
+
+<p>Este post es una síntesis de una parte de un trabajo de consultoría consistente en un análisis bibliométrico de los trabajos publicados sobre la utilización de sensores remotos en aplicaciones ambientales. De acuerdo a la OCDE <span class="citation">(Organisation for Economic Co-operation and Development <a href="#ref-OrganisationforEconomicCo-operationandDevelopment2006">2006</a>)</span> la bibliometría es el análisis estadístico de publicaciones escritas. La aplicación de técnicas cuantitativas y estadísticas al análisis de publicaciones científicas y sus respectivas citas bibliográficas es muy utilizado en la actualidad para evaluar el crecimiento y la maduración de un campo científico, sus principales autores y redes de colaboración así como tendencias en la comunidad científica.</p>
 <p>Los datos utilizados son de SCOPUS (<a href="http://www.scopus.com" class="uri">http://www.scopus.com</a>). SCOPUS es una de las bases de datos más grandes de citas y <em>abstracts</em> de literatura científica revisada por pares o <em>peer-reviewed</em>. Realicé una búsqueda de artículos que contengan la frase <em>‘remote sensing’</em> en el título, abstract o palabras clave dentro del área de Ciencias del Ambiente en los últimos 10 años (entre 2009 y 2018 inclusive) y obtuve 14655 resultados.</p>
 <p>El análisis se realizó utilizando la librería de R ‘Bibliometrix’ de Massimo Aria y Corrado Cuccurullo. ‘Bibliometrix’ es un paquete que provee distintas rutinas para importar datos bibliográficos de SCOPUS y otras bases de datos y permite constuir distintas matrices para análisis bibliométrico. Escuché por primera vez sobre este paquete en <a href="https://github.com/LatinR/presentaciones-LatinR2018">LatinR2018</a> y me resutló de muchísima utilidad.</p>
 <p>Comienzo leyendo los archivos que descargué de Scopus y convirtiéndolos en dataframe</p>
@@ -219,7 +222,7 @@ scopus_summary</code></pre>
 <p>Las métricas básicas muestran que, tal como se mencionó anteriormente, hay 14655 artículos de 751 fuentes y 37.983 autores (sólo 314 artículos con un solo autor). Además, existen 28.958 palabras claves definidas por los autores y 56.265 palabras claves asociadas por SCOPUS. Estas palabras claves permitirán una aproximación a los temas específicos y a las aplicaciones ambientales documentadas en los artículos.</p>
 <p>La producción académica a lo largo de la serie ha ido aumentando consistentemente hasta el 2016 (1885 papers) para luego declinar levemente en 2017 (1844 papers) y más pronunciadamente en 2018 (1398 papers).</p>
 <pre class="r"><code>plot(x = myanalysis, k = 10, pause = FALSE)</code></pre>
-<p><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-5-2.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-5-3.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-5-4.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-5-5.png" width="672" /></p>
+<p><img src="/post/2018-10-01-analisis-bibliometrico_files/figure-html/unnamed-chunk-5-1.png" width="672" /><img src="/post/2018-10-01-analisis-bibliometrico_files/figure-html/unnamed-chunk-5-2.png" width="672" /><img src="/post/2018-10-01-analisis-bibliometrico_files/figure-html/unnamed-chunk-5-3.png" width="672" /><img src="/post/2018-10-01-analisis-bibliometrico_files/figure-html/unnamed-chunk-5-4.png" width="672" /><img src="/post/2018-10-01-analisis-bibliometrico_files/figure-html/unnamed-chunk-5-5.png" width="672" /></p>
 <p>Con respecto al país de origen de los autores, el ranking está liderado por China (3334) y EEUU (3116) a una distancia considerable de India, con 970 publicaciones y Alemania con 582. En el décimo lugar asoma el primer país latinoamericano: Brasil, con 279 artículos.</p>
 <p>El ranking de citas bibliográficas por país lo lidera claramente EEUU con 54486, seguido por China con 26810 y Alemania con 11867, aunque si se pondera por la cantidad de artículos el ranking es encabezado por Países Bajos (21.12 citas por artículo), seguido por Alemania (20.39 citas por artículo) y el Reino Unido (18.73 citas por artículo).</p>
 <p>El <em>paper</em> más citado es <span class="citation">(Giri et al. <a href="#ref-Giri2011">2011</a>)</span> con 681 citas. Este paper analiza la extensión y distribución de bosques de manglares mediante técnicas de clasificación supervisada y no supervisada con imágenes Landsat. Entre los 10 más citados el más reciente es el paper de Van Dijk, A. I. J. M. et al. (2013) en el que se analizan los conductores y los impactos de la peor sequía sufrida en el sudeste de Australia entre 2001 y 2009 mediante la combinación de datos climáticos, del agua, económicos y de teledetección.</p>
@@ -250,7 +253,7 @@ Para visualizar distintos tipos de relaciones (entre palabras claves, redes de c
 </div>
 <p>Finalmente, veamos las métricas más relevantes de autores argentinos</p>
 <pre class="r"><code>plot(x = myanalysisARG, k = 10, pause = FALSE)</code></pre>
-<p><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-6-1.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-6-2.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-6-3.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-6-4.png" width="672" /><img src="/post/2018-10-01-análisis-bibliométrico_files/figure-html/unnamed-chunk-6-5.png" width="672" /></p>
+<p><img src="/post/2018-10-01-analisis-bibliometrico_files/figure-html/unnamed-chunk-6-1.png" width="672" /><img src="/post/2018-10-01-analisis-bibliometrico_files/figure-html/unnamed-chunk-6-2.png" width="672" /><img src="/post/2018-10-01-analisis-bibliometrico_files/figure-html/unnamed-chunk-6-3.png" width="672" /><img src="/post/2018-10-01-analisis-bibliometrico_files/figure-html/unnamed-chunk-6-4.png" width="672" /><img src="/post/2018-10-01-analisis-bibliometrico_files/figure-html/unnamed-chunk-6-5.png" width="672" /></p>
 <div id="refs" class="references">
 <div id="ref-Giri2011">
 <p>Giri, C, E Ochieng, L L Tieszen, Z Zhu, A Singh, T Loveland, J Masek, and N Duke. 2011. “Status and distribution of mangrove forests of the world using earth observation satellite data.” <em>Glob. Ecol. Biogeogr.</em></p>

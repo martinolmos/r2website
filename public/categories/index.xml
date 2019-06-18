@@ -6,25 +6,17 @@
     <description>Recent content in Categories on R2</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
+    <lastBuildDate>Thu, 30 Aug 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Neo4j</title>
+      <title>neo4j</title>
       <link>/categories/neo4j/</link>
       <pubDate>Thu, 30 Aug 2018 00:00:00 +0000</pubDate>
       
       <guid>/categories/neo4j/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Plot.ly</title>
-      <link>/categories/plot.ly/</link>
-      <pubDate>Thu, 02 Nov 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/plot.ly/</guid>
       <description></description>
     </item>
     
@@ -34,6 +26,15 @@
       <pubDate>Thu, 02 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>/categories/r/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>plot.ly</title>
+      <link>/categories/plot.ly/</link>
+      <pubDate>Thu, 02 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/plot.ly/</guid>
       <description></description>
     </item>
     

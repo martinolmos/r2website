@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Hugo 0.30.2" />
+<meta name="generator" content="Hugo 0.55.6" />
 
 
 <title>Dónde abrir el local de comidas? - R2</title>
@@ -69,9 +69,13 @@
     
 
     <div class="article-content">
-      <p>Hace un tiempo un amigo de un amigo me pidió ayuda para determinar cuál era el mejor lugar para abrir un local de comidas usando datos públicos disponibles. Se trataba de un servicio con modalidad ‘take-away’, que brindaría una oferta económica de comida saludable para el almuerzo. Básicamente, el público en el que estaba pensando era gente que trabaja en oficinas.</p>
+      
+
+
+<p>Hace un tiempo un amigo de un amigo me pidió ayuda para determinar cuál era el mejor lugar para abrir un local de comidas usando datos públicos disponibles. Se trataba de un servicio con modalidad ‘take-away’, que brindaría una oferta económica de comida saludable para el almuerzo. Básicamente, el público en el que estaba pensando era gente que trabaja en oficinas.</p>
 <p>Lo primero que hicimos fue tratar de mapear la oferta y demanda existente. Para esto, utilizamos datos del <a href="https://data.buenosaires.gob.ar/dataset/relevamiento-usos-del-suelo">relevamiento de usos del suelo</a> del GCBA (que nos permitió mapear las parcelas donde funcionan oficinas) y de la API de <a href="www.yelp.com">Yelp!</a>, la aplicación móvil que conecta gente con negocios locales, que nos permitió obtener <strong>información detallada de locales de comida con caractísticas similares a las del negocio analizado</strong>.</p>
-<p>Vamos paso por paso con el análisis que hicimos en R. Lo primero fue cargar las librerías que vamos a utilizar. En este caso ‘dplyr’ y ‘tidyr’ para manipular los datos, ‘httr’ para los requerimiento a la API de Yelp! y ‘leaflet’ para mapear.</p>
+<p>Vamos paso por paso con el análisis que hicimos en R.
+Lo primero fue cargar las librerías que vamos a utilizar. En este caso ‘dplyr’ y ‘tidyr’ para manipular los datos, ‘httr’ para los requerimiento a la API de Yelp! y ‘leaflet’ para mapear.</p>
 <p>Luego, descargamos el relevamiento de usos del suelo y lo filtramos para quedarnos sólo con los rubros que nos interesan. A modo de muestra para este ejemplo, vamos a quedarnos con las categorías “INTERMEDIACION FINANCIERA Y AUXILIARES”, “SERVICIOS DE SEGUROS Y DE ADMINISTRACION DE FONDOS DE JUBILACIONES Y PENSIONES” Y “ADMINISTRACION PUBLICA, DEFENSA Y SEGURIDAD SOCIAL” de la variable “rama1” y con la categoria “OFICINAS” de la variable “tipo_2” (para ver el detalle de lo que significa cada variable y rubro pueden referirse a la <a href="https://data.buenosaires.gob.ar/api/files/documentacion-relevamiento-usos-suelo-2011.pdf/download">documentación del dataset</a>).</p>
 <pre class="r"><code># Carga las librerías que vamos a necesitar
 library(dplyr)
@@ -100,9 +104,15 @@ oficinas &lt;- usos %&gt;% filter(tipo_2 == &quot;OFICINAS&quot; |
 <li>location: Se especifica mediante uno o varios de los siguientes elementos: dirección, barrio, ciudad, estado o código postal y país. Es el único parámetro obligatorio, salvo que se especifiquen los parámetros “latitutde” y “longitude”. En nuestro caso, utilizaremos “Buenos Aires.”</li>
 <li>categories: un listado de las categorías separadas por comas. En nuestro caso, utilizaremos “salad,vegan,vegetarian,delis,delicatessen”. <a href="https://www.yelp.co.uk/developers/documentation/v2/all_category_list">Acá</a> pueden ver el listado completo de categorías.</li>
 <li>term: es el término de búsqueda. En nuestro caso utilizaremos el término “para llevar”.</li>
-<li>price: Yelp! utiliza un rango de precios de cuatro escalones: 1 (barato), 2 (moderado), 3 (carito) y 4 (caro). Los siguientes dos parámetros, limit y offset, funcionan de la siguiente manera: Supongamos que en base a una búsqueda determinada la API arroja 1200 resultados. La API sólo nos permitirá acceder a 1000, el máximo permitido, aunque no podemos acceder de una vez a todos juntos. El parámetro ‘limit’ especifica el número de resultados que devuelve (el default es 20 y el máximo es 50). Supongamos ahora que pido los primeros 50 resultados, para acceder a los siguientes 50, debo especificar offset = 51. Es decir, offset es el parámetro que especifica el índice del listado total de resultados a partir del cual nos va a devolver los siguientes 50.</li>
+<li>price: Yelp! utiliza un rango de precios de cuatro escalones: 1 (barato), 2 (moderado), 3 (carito) y 4 (caro).
+Los siguientes dos parámetros, limit y offset, funcionan de la siguiente manera: Supongamos que en base a una búsqueda determinada la API arroja 1200 resultados. La API sólo nos permitirá acceder a 1000, el máximo permitido, aunque no podemos acceder de una vez a todos juntos. El parámetro ‘limit’ especifica el número de resultados que devuelve (el default es 20 y el máximo es 50). Supongamos ahora que pido los primeros 50 resultados, para acceder a los siguientes 50, debo especificar offset = 51. Es decir, offset es el parámetro que especifica el índice del listado total de resultados a partir del cual nos va a devolver los siguientes 50.</li>
 </ul>
-<p>Una vez que determinamos los parámetros hay que construir un while-loop que mientras offset sea menor a la cantidad total de negocios o menor a 1000: * Cree un url para requerir los datos en base a los parámetros definidos * Haga el requerimiento de los primeros 50 negocios * Chequee si el requerimiento fue exitoso * Transforme los resultados en un data.frame (ya que los resultados vuelven en una serie de listas anidadas) * Actualice el valor de offset para el siguiente requerimiento</p>
+<p>Una vez que determinamos los parámetros hay que construir un while-loop que mientras offset sea menor a la cantidad total de negocios o menor a 1000:
+* Cree un url para requerir los datos en base a los parámetros definidos
+* Haga el requerimiento de los primeros 50 negocios
+* Chequee si el requerimiento fue exitoso
+* Transforme los resultados en un data.frame (ya que los resultados vuelven en una serie de listas anidadas)
+* Actualice el valor de offset para el siguiente requerimiento</p>
 <pre class="r"><code># Descarga los datos de Yelp!
 # Credenciales para la Yelp API
 client_id &lt;- &quot;tu_client_id&quot;

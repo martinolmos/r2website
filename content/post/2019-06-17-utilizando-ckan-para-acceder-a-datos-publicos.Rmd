@@ -1,0 +1,75 @@
+---
+title: Utilizando CKAN para acceder a datos públicos
+author: 'Martin Olmos'
+date: '2019-06-17'
+slug: utilizando-ckan-para-acceder-a-datos-publicos
+categories: []
+tags: []
+---
+```{r, echo=FALSE}
+knitr::opts_chunk$set(cache = TRUE)
+```
+
+Hace poco me enteré que el GCBA, el gobierno nacional y otros Estados y organizaciones publican sus datos públicos a través de una plataforma llamada CKAN a la que se puede acceder mediante una API y que existe una librería de R para esto.
+
+Hay un buen [tutorial][1] de [ROpenSci][2] que voy a ir siguiendo para acceder a los datos publicados por el GCBA.
+
+Primero cargo las librería "ckanr" y "tidyverse" (si no las tengo instaladas, las instalo con `install.packages("nombredelpaquete")`).
+
+```{r, message=FALSE, warning=FALSE}
+library(ckanr)
+library(tidyverse)
+```
+
+Luego configuro la url a la que se tiene que conectar. En este caso, según la [documentación][3] de [Buenos Aires Data][4] la url es la siguiente:
+
+```{r}
+ckanr_setup(url = "https://data.buenosaires.gob.ar")
+```
+
+En la estructura de CKAN los paquetes agrupan recursos (datasets)
+Para listar los datasets disponibles hago lo siguiente:
+
+```{r}
+ba_paquetes <- package_list(as = "table", limit = 1000)
+```
+
+Con `as = "table"` se controla el formato de salida (en este caso un vector character) y con la opción `limit = 1000` extiendo la cantidad de resultados que me devuelve (que es 31 por default).
+
+Ahora veamos cómo mostrar los recursos de un paquete, por ejemplo de de obras.
+Primero veamos los paquetes que contienen la palabra "obras":
+
+```{r}
+grep(pattern = "obras", x = ba_paquetes, ignore.case = TRUE, value = TRUE)
+```
+
+Veamos el los detalles del paquete "obras-iniciadas":
+
+```{r}
+ba_obras_iniciadas_meta <- package_show("obras-iniciadas", 
+                                        as = "table")$resources[,-3]
+
+knitr::kable(ba_obras_iniciadas_meta, format = "html") %>% 
+        kableExtra::kable_styling() %>% 
+        kableExtra::scroll_box(width = "100%")
+```
+
+Vemos que hay dos datasets. Voy a descargar el primero.
+
+```{r}
+ba_obras_iniciadas <- ds_search(resource_id = ba_obras_iniciadas_meta$id[1], 
+                                limit = 10000, 
+                                as = "table")$records
+knitr::kable(ba_obras_iniciadas, format = "html") %>% 
+        kableExtra::kable_styling() %>% 
+        kableExtra::scroll_box(width = "100%")
+
+```
+
+
+
+
+[1]:https://ropensci.org/tutorials/ckanr_tutorial/
+[2]:https://ropensci.org/about/
+[3]:https://data.buenosaires.gob.ar
+[4]:https://data.buenosaires.gob.ar/acerca/ckan

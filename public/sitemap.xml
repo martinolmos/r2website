@@ -3,13 +3,42 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/post/</loc>
+    <lastmod>2019-06-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/</loc>
+    <lastmod>2019-06-17T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/2019/06/17/utilizando-ckan-para-acceder-a-datos-publicos/</loc>
+    <lastmod>2019-06-17T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/2018/10/01/an%C3%A1lisis-bibliom%C3%A9trico/</loc>
     <lastmod>2018-10-01T00:00:00+00:00</lastmod>
   </url>
   
   <url>
+    <loc>/categories/</loc>
+    <lastmod>2018-08-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/2018/08/30/jugando-con-neo4j-y-los-datos-de-los-mundiales/</loc>
     <lastmod>2018-08-30T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/neo4j/</loc>
+    <lastmod>2018-08-30T00:00:00+00:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -48,18 +77,8 @@
   </url>
   
   <url>
-    <loc>/about/</loc>
-    <lastmod>2016-05-05T21:48:51-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/neo4j/</loc>
-    <lastmod>2018-08-30T00:00:00+00:00</lastmod>
+    <loc>/categories/r/</loc>
+    <lastmod>2017-11-02T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -70,21 +89,8 @@
   </url>
   
   <url>
-    <loc>/post/</loc>
-    <lastmod>2018-10-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/categories/r/</loc>
-    <lastmod>2017-11-02T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/</loc>
-    <lastmod>2018-10-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
+    <loc>/about/</loc>
+    <lastmod>2016-05-05T21:48:51-07:00</lastmod>
   </url>
   
   <url>

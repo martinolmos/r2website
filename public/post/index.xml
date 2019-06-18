@@ -6,10 +6,21 @@
     <description>Recent content in Posts on R2</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 17 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Utilizando CKAN para acceder a datos públicos</title>
+      <link>/2019/06/17/utilizando-ckan-para-acceder-a-datos-publicos/</link>
+      <pubDate>Mon, 17 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/06/17/utilizando-ckan-para-acceder-a-datos-publicos/</guid>
+      <description>Hace poco me enteré que el GCBA, el gobierno nacional y otros Estados y organizaciones publican sus datos públicos a través de una plataforma llamada CKAN a la que se puede acceder mediante una API y que existe una librería de R para esto.
+Hay un buen [tutorial][1] de [ROpenSci][2] que voy a ir siguiendo para acceder a los datos publicados por el GCBA.
+Primero cargo las librería “ckanr” y “tidyverse” (si no las tengo instaladas, las instalo con install.</description>
+    </item>
     
     <item>
       <title>Análisis bibliométrico</title>
@@ -105,7 +116,7 @@ Lo primero que hicimos fue tratar de mapear la oferta y demanda existente.</desc
       <pubDate>Thu, 02 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>/2017/11/02/kms-de-subte-en-ciudades/</guid>
-      <description>Breve tutorial sobre cómo hacer un gráfico interactivo de líneas con la plot.ly para R y Shiny comparando kilómetros construidos de Subte en Buenos Aires, Madrid, Sao Paulo y Santiago de Chile. Los datos utilizados son de citylines.co
+      <description>Breve tutorial sobre cómo hacer un gráfico interactivo de líneas con la plot.ly para R y Shiny comparando kilómetros construidos de Subte en Buenos Aires, Madrid, Sao Paulo y Santiago de Chile.Los datos utilizados son de citylines.co
 # Carga las librerías a utilizarlibrary(shiny)library(plotly)# Lee los datos (que ya fueron previamente obtenidos y procesados)subte_comp &amp;lt;- read.csv(&amp;quot;subte_comp.csv&amp;quot;)# Define la interfaz de usuarioui &amp;lt;- fluidPage(# Define el títulotitlePanel(&amp;quot;Kilómetros constuidos de subte en distintas ciudades&amp;quot;),# Define el layout sidebarLayout(# Define el panel lateralsidebarPanel(# Define el checkbox para seleccionar las ciudadescheckboxGroupInput(&amp;quot;elegir_ciudades&amp;quot;, label = &amp;quot;Eligir ciudades&amp;quot;,choices = c(&amp;quot;Buenos Aires&amp;quot;,&amp;quot;Madrid&amp;quot;,&amp;quot;Sao Paulo&amp;quot;, &amp;quot;Santiago&amp;quot;))),# Define el panel principalmainPanel(plotlyOutput(&amp;quot;subtePlot&amp;quot;))))# Define la función que se va a implementar en el servidorserver &amp;lt;- function(input, output) {# &amp;#39;Escucha&amp;#39; las ciudades seleccionadas en el checkbox para subsetear los datossubte_data=reactive({return(subte_comp[subte_comp$Ciudad %in% input$elegir_ciudades,])})# Envía el plot en base a las ciudades seleccionadasoutput$subtePlot &amp;lt;- renderPlotly({# Define el gráfico de líneasplot_ly(data = subte_data(), x = ~Finalizacion, y = ~Value,color = ~Ciudad, type = &amp;quot;scatter&amp;quot;,mode = &amp;quot;lines&amp;quot;)})}# Corre la app shinyApp(ui = ui, server = server)</description>
     </item>
     
