@@ -12,7 +12,7 @@ knitr::opts_chunk$set(cache = FALSE)
 
 Hace poco me enteré que el GCBA, el gobierno nacional y otros Estados y organizaciones publican sus datos públicos a través de una plataforma llamada CKAN a la que se puede acceder mediante una API y que existe una librería de R para esto.
 
-Hay un buen [tutorial][1] de [ROpenSci][2] que voy a ir siguiendo para acceder a los datos publicados por el GCBA.
+Hay un buen [tutorial](https://ropensci.org/tutorials/ckanr_tutorial/) de [ROpenSci](https://ropensci.org/about/) que voy a ir siguiendo para acceder a los datos publicados por el GCBA.
 
 Primero cargo las librería "ckanr" y "tidyverse" (si no las tengo instaladas, las instalo con `install.packages("nombredelpaquete")`).
 
@@ -23,7 +23,7 @@ library(knitr)
 library(kableExtra)
 ```
 
-Luego configuro la url a la que se tiene que conectar. En este caso, según la [documentación][3] de [Buenos Aires Data][4] la url es la siguiente:
+Luego configuro la url a la que se tiene que conectar. En este caso, según la [documentación](https://data.buenosaires.gob.ar) de [Buenos Aires Data](https://data.buenosaires.gob.ar/acerca/ckan) la url es la siguiente:
 
 ```{r}
 ckanr_setup(url = "https://data.buenosaires.gob.ar")
@@ -86,9 +86,3 @@ Una vez que tenemos los datos podemos hacer alguna linda visualización animada,
 ![](/post/2019-06-17-utilizando-ckan-para-acceder-a-datos-publicos_files/metros_construidos_bar_race.gif)
 
 
-
-
-[1]:(https://ropensci.org/tutorials/ckanr_tutorial/)
-[2]:(https://ropensci.org/about/)
-[3]:(https://data.buenosaires.gob.ar)
-[4]:(https://data.buenosaires.gob.ar/acerca/ckan)
