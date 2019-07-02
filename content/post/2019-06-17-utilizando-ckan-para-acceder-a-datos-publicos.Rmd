@@ -88,7 +88,7 @@ Una vez que tenemos los datos podemos hacer alguna linda visualización animada,
 
 
 
-[1](https://ropensci.org/tutorials/ckanr_tutorial/)
-[2](https://ropensci.org/about/)
-[3](https://data.buenosaires.gob.ar)
-[4](https://data.buenosaires.gob.ar/acerca/ckan)
+[1]:(https://ropensci.org/tutorials/ckanr_tutorial/)
+[2]:(https://ropensci.org/about/)
+[3]:(https://data.buenosaires.gob.ar)
+[4]:(https://data.buenosaires.gob.ar/acerca/ckan)
