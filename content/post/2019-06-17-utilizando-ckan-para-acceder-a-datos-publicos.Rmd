@@ -68,7 +68,8 @@ Vemos que hay dos datasets. Voy a descargar el primero.
 ba_obras_iniciadas <- ds_search(resource_id = ba_obras_iniciadas_meta$id[1], 
                                 limit = 10000, 
                                 as = "table")$records
-knitr::kable(ba_obras_iniciadas, format = "html") %>% 
+head(ba_obras_iniciadas, 20) %>% 
+knitr::kable(format = "html") %>% 
         kableExtra::kable_styling(
                 bootstrap_options = c("striped", 
                                       "hover",
@@ -80,9 +81,8 @@ knitr::kable(ba_obras_iniciadas, format = "html") %>%
 
 ```
 
-
 Una vez que tenemos los datos podemos hacer alguna linda visualización animada, como por ejemplo, un bar race plot o carrera de barras:
 
 ![](/post/2019-06-17-utilizando-ckan-para-acceder-a-datos-publicos_files/metros_construidos_bar_race.gif)
 
-
+El código para hacer el gráfico animado en un próximo post.
