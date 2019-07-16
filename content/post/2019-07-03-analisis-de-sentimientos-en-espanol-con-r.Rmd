@@ -25,7 +25,7 @@ La posibilidad de realizar este análisis en forma masiva dispara muchísimas pr
 
 En fin, yendo a la práctica, para este tutorial voy a utilizar el [Don Quijote][7], cuyos derechos de autor son de dominio público y es fácilmente accesible a través del paquete [gutenbergr][4], una librería que permite descargar los libros del Proyecto Gutenberg. Para manipular los datos voy a utilizar la librería [tidyverse][6].
 
-En primer lugar, descargo el libro y hago hago algo de limpieza del texto.
+En primer lugar, descargo el libro y hago algo de limpieza del texto.
 
 ```{r, message=FALSE, warning=FALSE}
 library(gutenbergr)
