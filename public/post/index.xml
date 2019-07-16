@@ -6,10 +6,20 @@
     <description>Recent content in Posts on R2</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 17 Jun 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 03 Jul 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Análisis de Sentimientos de libros en Español con R</title>
+      <link>/2019/07/03/an%C3%A1lisis-de-sentimientos-en-espa%C3%B1ol-con-r/</link>
+      <pubDate>Wed, 03 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/2019/07/03/an%C3%A1lisis-de-sentimientos-en-espa%C3%B1ol-con-r/</guid>
+      <description>En este post voy a presentar una forma rápida y sencilla de hacer Análisis de Sentimientos en Español utilizando R y la librería syuzhet.
+¿Para qué hacer éste tipo de análisis en libros? En este post Andrew Reagan de la Escuela de Información de Berkeley de la Universidad de California, retoma de Kurt Vonnegut la idea de que es posible cuantificar el arco emocional de las historias, y aplicó este análisis a 1.</description>
+    </item>
     
     <item>
       <title>Utilizando CKAN para acceder a datos públicos</title>
@@ -29,26 +39,6 @@ Primero cargo las librería “ckanr” y “tidyverse” (si no las tengo insta
       
       <guid>/2018/10/01/an%C3%A1lisis-bibliom%C3%A9trico/</guid>
       <description>Este post es una síntesis de una parte de un trabajo de consultoría consistente en un análisis bibliométrico de los trabajos publicados sobre la utilización de sensores remotos en aplicaciones ambientales. De acuerdo a la OCDE (Organisation for Economic Co-operation and Development 2006) la bibliometría es el análisis estadístico de publicaciones escritas. La aplicación de técnicas cuantitativas y estadísticas al análisis de publicaciones científicas y sus respectivas citas bibliográficas es muy utilizado en la actualidad para evaluar el crecimiento y la maduración de un campo científico, sus principales autores y redes de colaboración así como tendencias en la comunidad científica.</description>
-    </item>
-    
-    <item>
-      <title>Jugando con neo4j y los datos de los mundiales</title>
-      <link>/2018/08/30/jugando-con-neo4j-y-los-datos-de-los-mundiales/</link>
-      <pubDate>Thu, 30 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/08/30/jugando-con-neo4j-y-los-datos-de-los-mundiales/</guid>
-      <description>Como parte de la Especialización en Ciencia de Datos del ITBA participé de un seminario sobre bases de datos de grafos donde jugamos con Neo4j y datos históricos de los mundiales de fútbol.
-A continuación algunas de las queries más interesantes.
-1.¿Quiénes son los países que ganaron la Copa del Mundo siendo anfitriones? MATCH (match:Match {round: &amp;quot;Final&amp;quot;})&amp;lt;-[hostPlayed:PLAYED_IN]-(host:Country), (host)&amp;lt;-[:HOSTED_BY]-(worldCup), (worldCup)-[:CONTAINS_MATCH]-&amp;gt;(match), (match)&amp;lt;-[oppositionPlayed:PLAYED_IN]-(opposition) WHERE (hostPlayed.score &amp;gt; oppositionPlayed.score) OR (hostPlayed.penalties &amp;gt; oppositionPlayed.score) RETURN host, worldCup ORDER BY worldCup.</description>
-    </item>
-    
-    <item>
-      <title>Visualizaciones informando el debate sobre la LIVE</title>
-      <link>/2018/08/11/visualizaciones-informando-el-debate-sobre-la-live/</link>
-      <pubDate>Sat, 11 Aug 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/08/11/visualizaciones-informando-el-debate-sobre-la-live/</guid>
-      <description>Pasó el debate sobre la Ley de Interrupción Voluntaria del Embarazo, mérito absoluto del movimiento feminista, la novedad política más potente de los últimos años. Fue un debate intenso y muy informado en el que circularon numerosas visualizaciones y análisis de datos. Creo que vale la pena repasarlos para tenerlos en cuenta para debates futuros. Como siempre el recorte es un poco arbitrario: son los que recuerdo y encontré fácilmente.</description>
     </item>
     
     <item>
@@ -80,16 +70,6 @@ Veamos primero cuántos viajes se realizaron en cada mes:
     </item>
     
     <item>
-      <title>Larreta vs Larreta</title>
-      <link>/2018/01/21/larreta-vs-larreta/</link>
-      <pubDate>Sun, 21 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/2018/01/21/larreta-vs-larreta/</guid>
-      <description>Comienza un nuevo año y se acerca un nuevo período de sesiones ordinarias en la Legislatura porteña. Es un buen momento para analizar cómo fueron las dos anteriores aperturas de sesiones (2016 y 2017) del actual Jefe de Gobierno Horacio Rodriguez Larreta.
-Una primera aproximación, gráfica, al contenido de sus discursos de apertura es a través de las nubes de palabras donde el tamaño de cada término guarda relación con la frecuencia con la que fue utilizado y el color nos permite identificar rápidamente palabras con una frecuencia similar.</description>
-    </item>
-    
-    <item>
       <title>Distancia al subte</title>
       <link>/2018/01/15/distancia-al-subte/</link>
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
@@ -98,16 +78,6 @@ Una primera aproximación, gráfica, al contenido de sus discursos de apertura e
       <description>En este post me propongo explorar cuán lejos vivimos los porteños del subte. Una primer forma de analizar esto es tomando la distancia de cada manzana (hay aproximadamente unas 12 mil manzanas en la Ciudad de Buenos Aires) a la estación de subte más cercana.
 Veamos primero la distribución de las distancias de cada manzana a la estación más cercana a través de un histograma.
 Vemos que aproximadamente el 6% de los centros de manzana se encuentran a una distancia de menos de 200 metros y alrededor de 12% a una distancia de entre 200 y 400.</description>
-    </item>
-    
-    <item>
-      <title>Dónde abrir el local de comidas?</title>
-      <link>/2017/11/26/donde-abrir-el-local-de-comidas/</link>
-      <pubDate>Sun, 26 Nov 2017 00:00:00 +0000</pubDate>
-      
-      <guid>/2017/11/26/donde-abrir-el-local-de-comidas/</guid>
-      <description>Hace un tiempo un amigo de un amigo me pidió ayuda para determinar cuál era el mejor lugar para abrir un local de comidas usando datos públicos disponibles. Se trataba de un servicio con modalidad ‘take-away’, que brindaría una oferta económica de comida saludable para el almuerzo. Básicamente, el público en el que estaba pensando era gente que trabaja en oficinas.
-Lo primero que hicimos fue tratar de mapear la oferta y demanda existente.</description>
     </item>
     
     <item>

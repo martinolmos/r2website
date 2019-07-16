@@ -1,0 +1,71 @@
+---
+title: Análisis de Sentimientos de libros en Español con R
+author: Martin Olmos
+date: '2019-07-03'
+slug: análisis-de-sentimientos-en-español-con-r
+categories:
+  - NLP
+tags:
+  - NLP
+  - sentiment analysis
+---
+
+
+
+<p>En este post voy a presentar una forma rápida y sencilla de hacer <a href="https://es.wikipedia.org/wiki/An%C3%A1lisis_de_sentimiento">Análisis de Sentimientos en Español</a> utilizando <a href="https://www.r-project.org/">R</a> y la librería <a href="https://cran.r-project.org/package=syuzhet">syuzhet</a>.</p>
+<p>¿Para qué hacer éste tipo de análisis en libros? En este post <a href="https://andyreagan.github.io/2016/11/07/the-shapes-of-stories/">Andrew Reagan</a> de la Escuela de Información de Berkeley de la Universidad de California, retoma de Kurt Vonnegut la idea de que es posible cuantificar el arco emocional de las historias, y aplicó este análisis a 1.722 novelas del <a href="http://www.gutenberg.org/">Proyecto Gutemberg</a> y encontró seis formas comunes:</p>
+<ul>
+<li>Rags to riches (del fondo a lo más alto)</li>
+<li>Tragedy (de lo más alto al fondo)</li>
+<li>Man in a hole (baja, luego sube)</li>
+<li>Icarus (sube, luego baja)</li>
+<li>Cinderella (sube, luego baja, luego sube)</li>
+<li>Oedipus (baja, luego sube, luego baja)</li>
+</ul>
+<p>La posibilidad de realizar este análisis en forma masiva dispara muchísimas preguntas sobre la estructura de las historias a lo largo del tiempo, países, culturas, etc.</p>
+<p>En fin, yendo a la práctica, para este tutorial voy a utilizar el <a href="https://es.wikipedia.org/wiki/Don_Quijote_de_la_Mancha">Don Quijote</a>, cuyos derechos de autor son de dominio público y es fácilmente accesible a través del paquete <a href="https://cran.r-project.org/web/packages/gutenbergr/vignettes/intro.html">gutenbergr</a>, una librería que permite descargar los libros del Proyecto Gutenberg. Para manipular los datos voy a utilizar la librería <a href="https://www.tidyverse.org/">tidyverse</a>.</p>
+<p>En primer lugar, descargo el libro y hago hago algo de limpieza del texto.</p>
+<pre class="r"><code>library(gutenbergr)
+library(tidyverse)
+
+gutenberg_metadata %&gt;% filter(title == &quot;Don Quijote&quot;)</code></pre>
+<pre><code>## # A tibble: 1 x 8
+##   gutenberg_id title author gutenberg_autho~ language gutenberg_books~
+##          &lt;int&gt; &lt;chr&gt; &lt;chr&gt;             &lt;int&gt; &lt;chr&gt;    &lt;chr&gt;           
+## 1         2000 Don ~ Cerva~              505 es       Harvard Classic~
+## # ... with 2 more variables: rights &lt;chr&gt;, has_text &lt;lgl&gt;</code></pre>
+<pre class="r"><code>don_quijote &lt;- gutenberg_download(2000, strip = TRUE)
+
+Encoding(don_quijote$text) &lt;- &quot;latin1&quot;
+
+don_quijote &lt;- don_quijote$text %&gt;% 
+        paste0(collapse = &quot; &quot;) %&gt;% 
+        gsub(pattern = &quot;\&quot;, \&quot;&quot;, replacement = &quot; &quot;)</code></pre>
+<p>Luego, cargo la librería <code>syuzhet</code> y divido el texto en oraciones o sentencias.</p>
+<pre class="r"><code>library(syuzhet)
+
+don_quijote_sentences &lt;- get_sentences(don_quijote)</code></pre>
+<p>A continuación extraigo el sentimiento de cada oración:</p>
+<pre class="r"><code>don_quijote_sentiment &lt;- get_sentiment(don_quijote_sentences, 
+                                       method = &quot;nrc&quot;, 
+                                       language = &quot;spanish&quot;)</code></pre>
+<p>La función <code>get_sentiment</code> devuelve un vector con un valor númerico que representa el sentimiento positivo o negativo de cada oración.</p>
+<p>Ploteamos el vector de sentimientos:</p>
+<pre class="r"><code>plot(don_quijote_sentiment, 
+     type = &quot;l&quot;, 
+     main = &quot;Don Quijote&quot;, 
+     xlab = &quot;Tiempo Narrativo&quot;,
+     ylab = &quot;Polaridad/Sentimiento&quot;)</code></pre>
+<p><img src="/post/2019-07-03-analisis-de-sentimientos-en-espanol-con-r_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p>Evidentemente, plotear el sentimiento de cada oración no nos deja ver con claridad cómo evoluciona el sentimiento a lo largo del libro. Para eso tenemos que aplicar algún tipo de técnica que nos permita suavizar los valores para que expresen una tendencia.</p>
+<p>El paquete <code>syuzhet</code> trae la función <code>simple_plot</code> que aplica simultáneamente tres métodos para suavizar: media móvil, loess y discrete cosine transformation.</p>
+<pre class="r"><code>simple_plot(don_quijote_sentiment)</code></pre>
+<p><img src="/post/2019-07-03-analisis-de-sentimientos-en-espanol-con-r_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>Existen otros métodos para suavizar. Por ejemplo, el que trae por default la librería <code>ggplot</code> es una regresión GAM (Generalized Additive Model). Antes de plotear tengo que convertir el vector a data.frame, que es el tipo de dato que toma <code>ggplot</code>:</p>
+<pre class="r"><code>tibble(sentence = 1:length(don_quijote_sentiment), sentiment = don_quijote_sentiment) %&gt;% 
+  ggplot(aes(sentence, sentiment)) +
+  geom_smooth(se = FALSE) +
+  theme_bw()</code></pre>
+<pre><code>## `geom_smooth()` using method = &#39;gam&#39; and formula &#39;y ~ s(x, bs = &quot;cs&quot;)&#39;</code></pre>
+<p><img src="/post/2019-07-03-analisis-de-sentimientos-en-espanol-con-r_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>En términos del arco emocional pareciera una historia tipo Edipo (Oedipus), que baja, luego sube y finalmente vuelve a bajar.</p>

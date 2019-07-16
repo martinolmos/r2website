@@ -3,14 +3,49 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>/2019/07/03/an%C3%A1lisis-de-sentimientos-en-espa%C3%B1ol-con-r/</loc>
+    <lastmod>2019-07-03T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/categories/</loc>
+    <lastmod>2019-07-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/nlp/</loc>
+    <lastmod>2019-07-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/categories/nlp/</loc>
+    <lastmod>2019-07-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>/post/</loc>
-    <lastmod>2019-06-17T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>/</loc>
-    <lastmod>2019-06-17T00:00:00+00:00</lastmod>
+    <lastmod>2019-07-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/</loc>
+    <lastmod>2019-07-03T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>/tags/sentiment-analysis/</loc>
+    <lastmod>2019-07-03T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -25,28 +60,6 @@
   </url>
   
   <url>
-    <loc>/categories/</loc>
-    <lastmod>2018-08-30T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/2018/08/30/jugando-con-neo4j-y-los-datos-de-los-mundiales/</loc>
-    <lastmod>2018-08-30T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/categories/neo4j/</loc>
-    <lastmod>2018-08-30T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>/2018/08/11/visualizaciones-informando-el-debate-sobre-la-live/</loc>
-    <lastmod>2018-08-11T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/2018/06/07/carrera-de-ejecuci%C3%B3n-presupuestaria-2017/</loc>
     <lastmod>2018-06-07T00:00:00+00:00</lastmod>
   </url>
@@ -57,18 +70,8 @@
   </url>
   
   <url>
-    <loc>/2018/01/21/larreta-vs-larreta/</loc>
-    <lastmod>2018-01-21T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/2018/01/15/distancia-al-subte/</loc>
     <lastmod>2018-01-15T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/2017/11/26/donde-abrir-el-local-de-comidas/</loc>
-    <lastmod>2017-11-26T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -91,11 +94,6 @@
   <url>
     <loc>/about/</loc>
     <lastmod>2016-05-05T21:48:51-07:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/</loc>
-    <priority>0</priority>
   </url>
   
 </urlset>

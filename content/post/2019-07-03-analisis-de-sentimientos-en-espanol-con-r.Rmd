@@ -1,0 +1,102 @@
+---
+title: Análisis de Sentimientos de libros en Español con R
+author: Martin Olmos
+date: '2019-07-03'
+slug: análisis-de-sentimientos-en-español-con-r
+categories:
+  - NLP
+tags:
+  - NLP
+  - sentiment analysis
+---
+
+En este post voy a presentar una forma rápida y sencilla de hacer [Análisis de Sentimientos en Español][1] utilizando [R][2] y la librería [syuzhet][3].
+
+¿Para qué hacer éste tipo de análisis en libros? En este post [Andrew Reagan][8] de la Escuela de Información de Berkeley de la Universidad de California, retoma de Kurt Vonnegut la idea de que es posible cuantificar el arco emocional de las historias, y aplicó este análisis a 1.722 novelas del [Proyecto Gutemberg][5] y encontró seis formas comunes:
+
+- Rags to riches (del fondo a lo más alto)
+- Tragedy (de lo más alto al fondo)
+- Man in a hole (baja, luego sube)
+- Icarus (sube, luego baja)
+- Cinderella (sube, luego baja, luego sube)
+- Oedipus (baja, luego sube, luego baja)
+
+La posibilidad de realizar este análisis en forma masiva dispara muchísimas preguntas sobre la estructura de las historias a lo largo del tiempo, países, culturas, etc.
+
+En fin, yendo a la práctica, para este tutorial voy a utilizar el [Don Quijote][7], cuyos derechos de autor son de dominio público y es fácilmente accesible a través del paquete [gutenbergr][4], una librería que permite descargar los libros del Proyecto Gutenberg. Para manipular los datos voy a utilizar la librería [tidyverse][6].
+
+En primer lugar, descargo el libro y hago hago algo de limpieza del texto.
+
+```{r, message=FALSE, warning=FALSE}
+library(gutenbergr)
+library(tidyverse)
+
+gutenberg_metadata %>% filter(title == "Don Quijote")
+
+don_quijote <- gutenberg_download(2000, strip = TRUE)
+
+Encoding(don_quijote$text) <- "latin1"
+
+don_quijote <- don_quijote$text %>% 
+        paste0(collapse = " ") %>% 
+        gsub(pattern = "\", \"", replacement = " ")
+
+```
+
+Luego, cargo la librería `syuzhet` y divido el texto en oraciones o sentencias.
+
+```{r}
+library(syuzhet)
+
+don_quijote_sentences <- get_sentences(don_quijote)
+```
+
+A continuación extraigo el sentimiento de cada oración:
+
+```{r}
+
+don_quijote_sentiment <- get_sentiment(don_quijote_sentences, 
+                                       method = "nrc", 
+                                       language = "spanish")
+
+```
+
+La función `get_sentiment` devuelve un vector con un valor númerico que representa el sentimiento positivo o negativo de cada oración.
+
+Ploteamos el vector de sentimientos:
+
+```{r}
+plot(don_quijote_sentiment, 
+     type = "l", 
+     main = "Don Quijote", 
+     xlab = "Tiempo Narrativo",
+     ylab = "Polaridad/Sentimiento")
+```
+
+Evidentemente, plotear el sentimiento de cada oración no nos deja ver con claridad cómo evoluciona el sentimiento a lo largo del libro. Para eso tenemos que aplicar algún tipo de técnica que nos permita suavizar los valores para que expresen una tendencia. 
+
+El paquete `syuzhet` trae la función `simple_plot` que aplica simultáneamente tres métodos para suavizar: media móvil, loess y discrete cosine transformation. 
+
+```{r}
+simple_plot(don_quijote_sentiment)
+```
+
+Existen otros métodos para suavizar. Por ejemplo, el que trae por default la librería `ggplot` es una regresión GAM (Generalized Additive Model). Antes de plotear tengo que convertir el vector a data.frame, que es el tipo de dato que toma `ggplot`:
+
+```{r}
+tibble(sentence = 1:length(don_quijote_sentiment), sentiment = don_quijote_sentiment) %>% 
+  ggplot(aes(sentence, sentiment)) +
+  geom_smooth(se = FALSE) +
+  theme_bw()
+```
+
+En términos del arco emocional pareciera una historia tipo Edipo (Oedipus), que baja, luego sube y finalmente vuelve a bajar.
+
+[1]:https://es.wikipedia.org/wiki/An%C3%A1lisis_de_sentimiento
+[2]:https://www.r-project.org/
+[3]:https://cran.r-project.org/package=syuzhet
+[4]:https://cran.r-project.org/web/packages/gutenbergr/vignettes/intro.html
+[5]:http://www.gutenberg.org/
+[6]:https://www.tidyverse.org/
+[7]:https://es.wikipedia.org/wiki/Don_Quijote_de_la_Mancha
+[8]:https://andyreagan.github.io/2016/11/07/the-shapes-of-stories/
