@@ -23,7 +23,7 @@ En este post voy a presentar una forma rápida y sencilla de hacer [Análisis de
 
 La posibilidad de realizar este análisis en forma masiva dispara muchísimas preguntas sobre la estructura de las historias a lo largo del tiempo, países, culturas, etc.
 
-En [esta][9] aplicación desarrollada por el mismo Andy Reagan se pueden explorar los arcos emocionales de muchos libros. Aquí
+En [esta][9] aplicación desarrollada por el mismo Andy Reagan se pueden explorar los arcos emocionales de muchos libros.
 
 En fin, yendo a la práctica, para este tutorial voy a utilizar el [Don Quijote][7], cuyos derechos de autor son de dominio público y es fácilmente accesible a través del paquete [gutenbergr][4], una librería que permite descargar los libros del Proyecto Gutenberg. Para manipular los datos voy a utilizar la librería [tidyverse][6].
 
