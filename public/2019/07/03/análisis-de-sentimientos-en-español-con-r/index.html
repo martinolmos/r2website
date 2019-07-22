@@ -83,6 +83,7 @@
 <li>Oedipus (baja, luego sube, luego baja)</li>
 </ul>
 <p>La posibilidad de realizar este análisis en forma masiva dispara muchísimas preguntas sobre la estructura de las historias a lo largo del tiempo, países, culturas, etc.</p>
+<p>En <a href="http://hedonometer.org/books/v3/1777/">esta</a> aplicación desarrollada por el mismo Andy Reagan se pueden explorar los arcos emocionales de muchos libros.</p>
 <p>En fin, yendo a la práctica, para este tutorial voy a utilizar el <a href="https://es.wikipedia.org/wiki/Don_Quijote_de_la_Mancha">Don Quijote</a>, cuyos derechos de autor son de dominio público y es fácilmente accesible a través del paquete <a href="https://cran.r-project.org/web/packages/gutenbergr/vignettes/intro.html">gutenbergr</a>, una librería que permite descargar los libros del Proyecto Gutenberg. Para manipular los datos voy a utilizar la librería <a href="https://www.tidyverse.org/">tidyverse</a>.</p>
 <p>En primer lugar, descargo el libro y hago algo de limpieza del texto.</p>
 <pre class="r"><code>library(gutenbergr)
@@ -119,10 +120,11 @@ don_quijote_sentences &lt;- get_sentences(don_quijote)</code></pre>
 <p><img src="/post/2019-07-03-analisis-de-sentimientos-en-espanol-con-r_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Evidentemente, plotear el sentimiento de cada oración no nos deja ver con claridad cómo evoluciona el sentimiento a lo largo del libro. Para eso tenemos que aplicar algún tipo de técnica que nos permita suavizar los valores para que expresen una tendencia.</p>
 <p>El paquete <code>syuzhet</code> trae la función <code>simple_plot</code> que aplica simultáneamente tres métodos para suavizar: media móvil, loess y discrete cosine transformation.</p>
-<pre class="r"><code>simple_plot(don_quijote_sentiment)</code></pre>
+<pre class="r"><code>simple_plot(don_quijote_sentiment, )</code></pre>
 <p><img src="/post/2019-07-03-analisis-de-sentimientos-en-espanol-con-r_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Existen otros métodos para suavizar. Por ejemplo, el que trae por default la librería <code>ggplot</code> es una regresión GAM (Generalized Additive Model). Antes de plotear tengo que convertir el vector a data.frame, que es el tipo de dato que toma <code>ggplot</code>:</p>
-<pre class="r"><code>tibble(sentence = 1:length(don_quijote_sentiment), sentiment = don_quijote_sentiment) %&gt;% 
+<pre class="r"><code>tibble(sentence = 1:length(don_quijote_sentiment), 
+       sentiment = rescale(don_quijote_sentiment)) %&gt;% 
   ggplot(aes(sentence, sentiment)) +
   geom_smooth(se = FALSE) +
   theme_bw()</code></pre>

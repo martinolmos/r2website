@@ -79,14 +79,15 @@ Evidentemente, plotear el sentimiento de cada oración no nos deja ver con clari
 
 El paquete `syuzhet` trae la función `simple_plot` que aplica simultáneamente tres métodos para suavizar: media móvil, loess y discrete cosine transformation. 
 
-```{r}
-simple_plot(don_quijote_sentiment)
+```{r, fig.height=10}
+simple_plot(don_quijote_sentiment, )
 ```
 
 Existen otros métodos para suavizar. Por ejemplo, el que trae por default la librería `ggplot` es una regresión GAM (Generalized Additive Model). Antes de plotear tengo que convertir el vector a data.frame, que es el tipo de dato que toma `ggplot`:
 
 ```{r}
-tibble(sentence = 1:length(don_quijote_sentiment), sentiment = don_quijote_sentiment) %>% 
+tibble(sentence = 1:length(don_quijote_sentiment), 
+       sentiment = rescale(don_quijote_sentiment)) %>% 
   ggplot(aes(sentence, sentiment)) +
   geom_smooth(se = FALSE) +
   theme_bw()
