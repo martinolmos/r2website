@@ -60,7 +60,7 @@ don_quijote_sentences &lt;- get_sentences(don_quijote)</code></pre>
 <p><img src="/post/2019-07-03-analisis-de-sentimientos-en-espanol-con-r_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Evidentemente, plotear el sentimiento de cada oración no nos deja ver con claridad cómo evoluciona el sentimiento a lo largo del libro. Para eso tenemos que aplicar algún tipo de técnica que nos permita suavizar los valores para que expresen una tendencia.</p>
 <p>El paquete <code>syuzhet</code> trae la función <code>simple_plot</code> que aplica simultáneamente tres métodos para suavizar: media móvil, loess y discrete cosine transformation.</p>
-<pre class="r"><code>simple_plot(don_quijote_sentiment, )</code></pre>
+<pre class="r"><code>simple_plot(don_quijote_sentiment)</code></pre>
 <p><img src="/post/2019-07-03-analisis-de-sentimientos-en-espanol-con-r_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Existen otros métodos para suavizar. Por ejemplo, el que trae por default la librería <code>ggplot</code> es una regresión GAM (Generalized Additive Model). Antes de plotear tengo que convertir el vector a data.frame, que es el tipo de dato que toma <code>ggplot</code>:</p>
 <pre class="r"><code>tibble(sentence = 1:length(don_quijote_sentiment), 
